@@ -29,14 +29,14 @@ const User = new Schema({
     require: true,
   },
   followers: [
-     {
-        type: String,
-     }
+    {
+      type: String,
+    },
   ],
   following: [
-     {
-        type: String,
-     }
+    {
+      type: String,
+    },
   ],
   places: [
     {
@@ -44,6 +44,11 @@ const User = new Schema({
     },
   ],
   comments: [
+    {
+      type: String,
+    },
+  ],
+  likes: [
     {
       type: String,
     },
