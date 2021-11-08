@@ -1,58 +1,39 @@
 import { model, Schema } from "mongoose";
 
-const User = new Schema({
-  id: {
-    type: String,
-    require: true,
-  },
-  firstName: {
-    type: String,
-    require: true,
-  },
-  secondName: {
-    type: String,
-    require: true,
-  },
-  userName: {
-    type: String,
-    require: true,
-  },
-  age: {
-    type: Number,
-    require: true,
-  },
-  phoneNumber: {
-    type: String,
-  },
-  email: {
-    type: String,
-    require: true,
-  },
-  followers: [
-    {
+const UserSchema = new Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    userName: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Others"],
+      required: true,
+    },
+    age: {
+      type: Number,
+      required: true,
+    },
+    phoneNumber: {
       type: String,
     },
-  ],
-  following: [
-    {
+    email: {
       type: String,
+      required: true,
     },
-  ],
-  places: [
-    {
-      type: String,
-    },
-  ],
-  comments: [
-    {
-      type: String,
-    },
-  ],
-  likes: [
-    {
-      type: String,
-    },
-  ],
-});
+  },
+  { timestamps: true }
+);
 
-const Cat = model("user", User);
+const User = model("user", UserSchema);
+
+export default User;
