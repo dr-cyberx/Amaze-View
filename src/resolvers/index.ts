@@ -26,10 +26,11 @@ const resolvers = {
         (err: any, docs: any) => {
           if (!err) {
             console.log("docs => ", docs);
+            return docs
           }
         }
       );
-      console.log("hello => ", user)
+      console.log("hello => ", user);
       // return user;
     },
   },
