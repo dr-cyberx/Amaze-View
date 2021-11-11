@@ -16,8 +16,10 @@ const getUser = gql`
   }
 `;
 
-const Users: React.FC = () => {
-  const { error, loading, data } = useQuery<any, OperationVariables>(getUser);
+const Users: React.FC = (): React.ReactElement => {
+  const { error, loading, data } = useQuery<any, OperationVariables>(getUser, {
+    fetchPolicy: "network-only", // Doesn't check cache before making a network request
+  });
   if (loading) return <h3>Loading...</h3>;
   if (error) return <h3>failed to fetch</h3>;
   return (
