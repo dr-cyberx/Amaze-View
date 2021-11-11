@@ -24,8 +24,11 @@
       "typescript": "^4.4.4"
    },
    "dependencies": {
+      "@zeit/next-sass": "^1.0.1",
+      "babel-preset-next": "^1.4.0",
       "dotenv": "^10.0.0",
       "graphql": "^16.0.1",
-      "nodemon": "^2.0.14"
+      "nodemon": "^2.0.14",
+      "sass": "^1.43.4"
    }
 }
