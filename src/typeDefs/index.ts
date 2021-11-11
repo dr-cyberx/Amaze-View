@@ -3,8 +3,9 @@ import { DocumentNode } from "graphql";
 import {
   user,
   EditUser,
-  createUser,
+  RegisterUser,
   updateUser,
+  Login,
   getAllUser,
 } from "./users/users";
 
@@ -23,9 +24,12 @@ const typeDefs: DocumentNode = gql`
   ${user}
   ${EditUser}
 
+  type loginOutput{message: String!, shouldLogin: Boolean!, token: String}
+
   type Mutation {
-    ${createUser}
+    ${RegisterUser}
     ${updateUser}
+    ${Login}
   }
 `;
 

@@ -4,7 +4,7 @@ import { ApolloError } from "apollo-server-core";
 import User from "../../db/schema/index";
 
 export const user_Mutation_Operations = {
-  createUser: async (_parents: any, args: any) => {
+  RegisterUser: async (_parents: any, args: any) => {
     try {
       const user = await new User(args);
       user.save();
@@ -25,6 +25,44 @@ export const user_Mutation_Operations = {
       }
     } catch (error) {
       throw new ApolloError("user not found!", "PERSISTED_QUERY_NOT_FOUND");
+    }
+  },
+
+  Login: async (_parents: any, args: any) => {
+    const { email, userName, password } = args;
+
+    if ((!email || !userName) && !password)
+      return {
+        message: "enter valid Login Creds",
+        shouldLogin: false,
+        token: "",
+      };
+    const filter = email || userName;
+    
+    console.log(filter);
+
+    const checkUser = email
+      ? await User.findOne({ email })
+      : await User.findOne({ userName });
+
+    console.log(checkUser);
+    if (!checkUser)
+      return { message: "user not found", shouldLogin: false, token: "" };
+
+    try {
+      await checkUser.comparePassword(password);
+      return {
+        message: "logged in successfully",
+        shouldLogin: true,
+        token: "",
+      };
+    } catch (error) {
+      console.log("error =>>>> ", error);
+      return {
+        message: "enter valid Login Creds",
+        shouldLogin: false,
+        token: "",
+      };
     }
   },
 };

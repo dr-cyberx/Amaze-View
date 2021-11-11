@@ -5,6 +5,7 @@ export const user = `type User {
     firstName: String!
     lastName: String!
     userName: String!
+    password: String!
     gender: Gender!
     age: Int!
     phoneNumber: String!
@@ -23,12 +24,13 @@ export const EditUser = `
   }
 `;
 
-export const createUser = `
-    createUser(
+export const RegisterUser = `
+    RegisterUser(
     firstName: String!
     lastName: String!
     userName: String!
     gender: Gender!
+    password:String!
     age: Int!
     phoneNumber: String!
     email: String!
@@ -36,3 +38,7 @@ export const createUser = `
 `;
 
 export const updateUser = `updateUser(id: ID!, data: EditUser): User!`;
+
+// const LoginReturnValue = `type loginOutput{message: String!, shouldLogin: Boolean!, token: String}`;
+
+export const Login = `Login(email: String, userName: String, password: String): loginOutput! `;
