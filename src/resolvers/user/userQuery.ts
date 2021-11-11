@@ -1,6 +1,3 @@
-import mongoose from "mongoose";
-import { ApolloError } from "apollo-server-core";
-
 import User from "../../db/schema/index";
 
 export const user_Query = {

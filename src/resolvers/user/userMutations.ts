@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { ApolloError } from "apollo-server-core";
+import jwt from "jsonwebtoken";
 
 import User from "../../db/schema/index";
 
@@ -37,24 +38,25 @@ export const user_Mutation_Operations = {
         shouldLogin: false,
         token: "",
       };
-    const filter = email || userName;
-    
-    console.log(filter);
 
     const checkUser = email
       ? await User.findOne({ email })
       : await User.findOne({ userName });
 
-    console.log(checkUser);
     if (!checkUser)
       return { message: "user not found", shouldLogin: false, token: "" };
 
     try {
       await checkUser.comparePassword(password);
+      const token = await jwt.sign(
+        { userId: checkUser._id },
+        `${process.env.TOKEN_STRING}`
+      );
+
       return {
         message: "logged in successfully",
         shouldLogin: true,
-        token: "",
+        token,
       };
     } catch (error) {
       console.log("error =>>>> ", error);
