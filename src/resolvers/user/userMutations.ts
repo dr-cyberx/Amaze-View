@@ -9,9 +9,16 @@ export const user_Mutation_Operations = {
     try {
       const user = await new User(args);
       user.save();
-      return user;
+
+      const token = await jwt.sign(
+        { userId: user._id },
+        `${process.env.TOKEN_STRING}`
+      );
+
+      return { data: user, token };
     } catch (error) {
       console.log(error);
+      return { data: null, token: "" };
     }
   },
 

@@ -24,6 +24,13 @@ export const EditUser = `
   }
 `;
 
+export const registerUserResponse = `
+  type registerUserResponse{
+    data : User,
+    token: String
+  }
+`;
+
 export const RegisterUser = `
     RegisterUser(
     firstName: String!
@@ -34,11 +41,9 @@ export const RegisterUser = `
     age: Int!
     phoneNumber: String!
     email: String!
-  ): User!
+  ): registerUserResponse!
 `;
 
 export const updateUser = `updateUser(id: ID!, data: EditUser): User!`;
-
-// const LoginReturnValue = `type loginOutput{message: String!, shouldLogin: Boolean!, token: String}`;
 
 export const Login = `Login(email: String, userName: String, password: String): loginOutput! `;

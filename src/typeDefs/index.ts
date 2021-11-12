@@ -7,6 +7,7 @@ import {
   updateUser,
   Login,
   getAllUser,
+  registerUserResponse,
 } from "./users/users";
 
 const typeDefs: DocumentNode = gql`
@@ -23,7 +24,8 @@ const typeDefs: DocumentNode = gql`
 
   ${user}
   ${EditUser}
-
+  ${registerUserResponse}
+  
   type loginOutput{message: String!, shouldLogin: Boolean!, token: String}
 
   type Mutation {
