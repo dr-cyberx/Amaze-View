@@ -9,6 +9,10 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem("auth-Token");
+    if (token) {
+      router.push("/Home");
+    }
     router.push("/auth/Login");
   }, []);
 

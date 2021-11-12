@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
+import Button from "../../components/reusable/Button";
+import AmazeLoader from "../../components/reusable/Loader";
 
 const LoginQuery = gql`
   mutation Login($userName: String, $password: String, $email: String) {
@@ -21,8 +23,16 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   });
 
   useEffect(() => {
+    const token = localStorage.getItem("auth-Token");
+    if (token) {
+      router.push("/Home");
+    }
+  }, []);
+
+  useEffect(() => {
     console.log("server response => ", data);
     if (data?.Login?.shouldLogin) {
+      localStorage.setItem("auth-Token", data?.Login?.token);
       router.push("/Home");
     }
   }, [data]);
@@ -30,31 +40,43 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   const handleSubmit = (event: any): any => {
     event.preventDefault();
     const { email_userName, password } = userLoginDetails;
+
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_userName)) {
       const userWithUsername = {
         userName: email_userName,
         password,
       };
-      console.log(userWithUsername);
-      LoginInputVariables({
-        variables: {
-          userName: userWithUsername.userName,
-          password: userWithUsername.password,
-        },
-      });
+
+      try {
+        LoginInputVariables({
+          variables: {
+            userName: userWithUsername.userName,
+            password: userWithUsername.password,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
       return userWithUsername;
     }
+
     const userWithEmail = {
       email: email_userName,
       password,
     };
-    LoginInputVariables({
-      variables: {
-        email: userWithEmail.email,
-        password: userWithEmail.password,
-      },
-    });
-    console.log(userWithEmail);
+
+    try {
+      LoginInputVariables({
+        variables: {
+          email: userWithEmail.email,
+          password: userWithEmail.password,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     return userWithEmail;
   };
 
@@ -65,7 +87,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
     }));
   };
 
-  if (loading) return <h3>Loading...</h3>;
+  if (loading) return <AmazeLoader data={data} />;
 
   return (
     <div>
@@ -83,7 +105,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
           name="password"
           onChange={handleChange}
         />
-        <button type="submit">Submit</button>
+        <Button type="submit" label="Submit" size="medium" />
       </form>
     </div>
   );
