@@ -39,6 +39,8 @@ export const user_Mutation_Operations = {
   Login: async (_parents: any, args: any) => {
     const { email, userName, password } = args;
 
+    console.log(args);
+
     if ((!email || !userName) && !password)
       return {
         message: "enter valid Login Creds",
