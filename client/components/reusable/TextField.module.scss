@@ -1,0 +1,28 @@
+.text_area {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  & label {
+    font-size: 1rem;
+    color: var(--color-primary-text);
+  }
+  & .input_container {
+    border-bottom: 3px solid var(--color-primary);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 25px;
+    margin-bottom: 10px;
+    // border: 2px solid red;
+  }
+  & input {
+    border: none;
+    flex: 1;
+    padding-top: 8px;
+    padding-bottom: 2px;
+    outline: none;
+    font-size: 1.4rem;
+    color: var(--color-primary-text);
+  }
+}

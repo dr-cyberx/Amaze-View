@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
+import TextField from "../../components/reusable/TextField";
 import Button from "../../components/reusable/Button";
 import AmazeLoader from "../../components/reusable/Loader";
 
@@ -93,17 +94,21 @@ const Login: React.FunctionComponent = (): JSX.Element => {
     <div>
       <h1>login Page</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Email or userName"
+        <TextField
+          label="Email or userName"
           type="text"
+          Icon="user"
           name="email_userName"
           onChange={handleChange}
+          value={userLoginDetails.email_userName}
         />
-        <input
-          placeholder="password"
+        <TextField
+          label="Password"
           type="text"
           name="password"
           onChange={handleChange}
+          Icon="password"
+          value={userLoginDetails.password}
         />
         <Button type="submit" label="Submit" size="medium" />
       </form>
