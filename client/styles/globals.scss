@@ -1,12 +1,12 @@
 :root {
-  --color-primary: #00ffff;
-  --color-primary-text: #272727f1;
+  --color-primary: rgb(29, 154, 212);
+  --color-primary-text: #696969;
   --color-additional: #ffce00;
 }
 
 html,
 body {
-  color: var(--color-primary-text);
+  color: #696969;
   padding: 0;
   margin: 0;
   font-family: "Inter", sans-serif;

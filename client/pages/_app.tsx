@@ -5,6 +5,7 @@ import { client } from "../gql/gql-client/index";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import "../styles/globals.scss";
+import Navbar from "../components/general/Navbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
