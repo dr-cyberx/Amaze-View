@@ -1,13 +1,37 @@
 import React from "react";
 import StandardView from "./StandardWidth";
-import styles from "../../styles/Navbar.module.scss";
+import Logo from "@components/reusable/Logo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faSearch,
+  faBell,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import styles from "@styles/Navbar.module.scss";
 
 const Navbar: React.FunctionComponent = (): JSX.Element => {
   return (
     <div className={styles.navbar_container}>
       <StandardView>
         <div className={styles.navbar}>
-          <h4>hello</h4>
+          <div className={styles.navbar_logo}>
+            <Logo size="small" />
+          </div>
+          <ul className={styles.nav_links}>
+            <li>
+              <FontAwesomeIcon size="1x" icon={faHome} /> Home
+            </li>
+            <li>
+              <FontAwesomeIcon size="1x" icon={faSearch} /> Search
+            </li>
+            <li>
+              <FontAwesomeIcon size="1x" icon={faBell} /> Notification
+            </li>
+            <li>
+              <FontAwesomeIcon size="1x" icon={faUser} /> Profile
+            </li>
+          </ul>
         </div>
       </StandardView>
     </div>

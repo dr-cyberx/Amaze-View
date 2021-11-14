@@ -1,0 +1,26 @@
+.Post_Card {
+  width: 750px;
+
+  margin: auto;
+  margin-top: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  & .Post_card_head {
+    display: flex;
+    padding: 10px;
+    // border: 2px solid red;
+    & .userIcon {
+      width: 50px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+  }
+  & .Post_card_body {
+    // border: 2px solid red;
+  }
+  & .Post_card_foot{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+}

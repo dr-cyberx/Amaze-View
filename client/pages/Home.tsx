@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import router from "next/router";
-import Navbar from "../components/general/Navbar";
-import StandardView from "../components/general/StandardWidth";
+import Navbar from "@components/general/Navbar";
+import StandardView from "@components/general/StandardWidth";
+import PostCard from "@components/general/PostCard";
 
 const Home: React.FunctionComponent = (): JSX.Element => {
   useEffect(() => {
@@ -16,7 +17,7 @@ const Home: React.FunctionComponent = (): JSX.Element => {
     <>
       <Navbar />
       <StandardView>
-        <h1>Home Page</h1>
+        <PostCard />
       </StandardView>
     </>
   );

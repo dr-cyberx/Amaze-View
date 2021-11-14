@@ -1,6 +1,32 @@
 .navbar_container {
   width: 100vw;
   min-height: 70px;
+  padding-top: 5px;
   max-height: auto;
-  border: 2px solid rgb(208, 208, 208);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  & .navbar {
+    // border: 2px solid red;
+    display: flex;
+    justify-content: space-between;
+    & .nav_links {
+      flex: 1;
+      display: flex;
+      text-decoration: none;
+      list-style: none;
+      //   border: 2px solid red;
+      justify-content: space-around;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    & .nav_links li:hover {
+      color: black;
+    }
+    & .navbar_logo {
+      display: flex;
+      //   border: 2px solid red;
+      justify-content: space-around;
+    }
+  }
 }
