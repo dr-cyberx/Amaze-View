@@ -93,6 +93,15 @@ const Login: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <div className={styles.Login_container}>
+      <div className={styles.Logo_wrapper}>
+        <Image
+          alt="Mountains"
+          src="/amazeViewLogo.jpg"
+          objectFit="cover"
+          height="100px"
+          width="350px"
+        />
+      </div>
       <div className={styles.Login_form_container}>
         <div className={styles.form}>
           <div>

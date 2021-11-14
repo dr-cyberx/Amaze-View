@@ -3,6 +3,12 @@
   width: 100vw;
   display: flex;
   justify-content: space-between;
+  & .Logo_wrapper {
+    //   border: 2px solid red;
+    position: absolute;
+    transform: scale(0.6);
+    left: -5%;
+  }
 
   & .Login_right_wallpaper {
     width: 60vw;
