@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
 import TextField from "../../components/reusable/TextField";
 import Button from "../../components/reusable/Button";
 import AmazeLoader from "../../components/reusable/Loader";
+import styles from "../../styles/Login.module.scss";
 
 const LoginQuery = gql`
   mutation Login($userName: String, $password: String, $email: String) {
@@ -31,7 +33,6 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    console.log("server response => ", data);
     if (data?.Login?.shouldLogin) {
       localStorage.setItem("auth-Token", data?.Login?.token);
       router.push("/Home");
@@ -91,27 +92,48 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   if (loading) return <AmazeLoader data={data} />;
 
   return (
-    <div>
-      <h1>login Page</h1>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Email or userName"
-          type="text"
-          Icon="user"
-          name="email_userName"
-          onChange={handleChange}
-          value={userLoginDetails.email_userName}
-        />
-        <TextField
-          label="Password"
-          type="text"
-          name="password"
-          onChange={handleChange}
-          Icon="password"
-          value={userLoginDetails.password}
-        />
-        <Button type="submit" label="Submit" size="medium" />
-      </form>
+    <div className={styles.Login_container}>
+      <div className={styles.Login_form_container}>
+        <div className={styles.form}>
+          <div>
+            <h1>Login</h1>
+            <p>
+              Welcome! Please fill userName/Email and your Password to sign in
+              into your account
+            </p>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Email or userName"
+              type="text"
+              Icon="user"
+              name="email_userName"
+              onChange={handleChange}
+              value={userLoginDetails.email_userName}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              onChange={handleChange}
+              Icon="password"
+              value={userLoginDetails.password}
+            />
+            <Button type="submit" label="Submit" size="medium" />
+          </form>
+        </div>
+      </div>
+      <div className={styles.Login_right_wallpaper}>
+        <div className={styles.Login_right_wallpaper_children}>
+          <h2>
+            <div className={styles.heading_line}></div>Start Exploring Now
+          </h2>
+          <p>
+            Amaze-View is a platform gives you a change to share your exploring
+            views to the world.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
