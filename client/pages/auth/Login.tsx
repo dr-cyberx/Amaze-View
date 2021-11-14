@@ -4,6 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
 import TextField from "../../components/reusable/TextField";
 import Button from "../../components/reusable/Button";
+import Logo from "../../components/reusable/Logo";
 import AmazeLoader from "../../components/reusable/Loader";
 import styles from "../../styles/Login.module.scss";
 
@@ -94,13 +95,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   return (
     <div className={styles.Login_container}>
       <div className={styles.Logo_wrapper}>
-        <Image
-          alt="Mountains"
-          src="/amazeViewLogo.jpg"
-          objectFit="cover"
-          height="100px"
-          width="350px"
-        />
+        <Logo size="small" />
       </div>
       <div className={styles.Login_form_container}>
         <div className={styles.form}>
