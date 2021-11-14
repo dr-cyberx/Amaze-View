@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
 import TextField from "../../components/reusable/TextField";
@@ -95,7 +94,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   return (
     <div className={styles.Login_container}>
       <div className={styles.Logo_wrapper}>
-        <Logo size="small" />
+        <Logo size="medium" />
       </div>
       <div className={styles.Login_form_container}>
         <div className={styles.form}>

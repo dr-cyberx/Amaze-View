@@ -8,10 +8,10 @@ interface ILogo {
 const handleHeight = (size: string): string => {
   switch (size) {
     case "small":
-      return "80px";
+      return "60px";
     case "medium":
       return "100px";
-    case "small":
+    case "large":
       return "150px";
     default:
       return "100px";
@@ -21,10 +21,10 @@ const handleHeight = (size: string): string => {
 const handleWidth = (size: string): string => {
   switch (size) {
     case "small":
-      return "300";
+      return "200";
     case "medium":
       return "350px";
-    case "small":
+    case "large":
       return "400";
     default:
       return "350";
