@@ -1,5 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faThumbsUp,
+  faComment,
+  faShare
+} from "@fortawesome/free-solid-svg-icons";
 import style from "@styles/PostCard.module.scss";
 
 const PostCard: React.FunctionComponent = (): JSX.Element => {
@@ -30,9 +36,9 @@ const PostCard: React.FunctionComponent = (): JSX.Element => {
         />
       </div>
       <div className={style.Post_card_foot}>
-        <p>Like</p>
-        <p>comment</p>
-        <p>share</p>
+        <p><FontAwesomeIcon size="1x" icon={faThumbsUp} /> Like</p>
+        <p><FontAwesomeIcon size="1x" icon={faComment} /> comment</p>
+        <p><FontAwesomeIcon size="1x" icon={faShare} /> share</p>
       </div>
     </div>
   );
