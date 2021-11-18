@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbsUp,
   faComment,
-  faShare
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import style from "@styles/PostCard.module.scss";
 
@@ -21,7 +21,7 @@ const PostCard: React.FunctionComponent = (): JSX.Element => {
             width="50px"
           />
         </div>
-        <div>
+        <div style={{ cursor: "pointer" }}>
           <p style={{ margin: "0", fontWeight: 450 }}>Raghav</p>
           <p style={{ margin: "0", fontSize: "13px" }}>Sector 23, Mohali</p>
         </div>
@@ -36,9 +36,15 @@ const PostCard: React.FunctionComponent = (): JSX.Element => {
         />
       </div>
       <div className={style.Post_card_foot}>
-        <p><FontAwesomeIcon size="1x" icon={faThumbsUp} /> Like</p>
-        <p><FontAwesomeIcon size="1x" icon={faComment} /> comment</p>
-        <p><FontAwesomeIcon size="1x" icon={faShare} /> share</p>
+        <p>
+          <FontAwesomeIcon size="1x" icon={faThumbsUp} /> Like
+        </p>
+        <p>
+          <FontAwesomeIcon size="1x" icon={faComment} /> comment
+        </p>
+        <p>
+          <FontAwesomeIcon size="1x" icon={faShare} /> share
+        </p>
       </div>
     </div>
   );
