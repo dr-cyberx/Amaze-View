@@ -7,7 +7,6 @@ import styles from "../styles/Home.module.scss";
 import AmazeLoader from "@components/reusable/Loader";
 
 const Home: NextPage = () => {
-  const [isUserVerified, setIsUserVerified] = useState(false);
   const router = useRouter();
 
   const verifyUser = async () => {
@@ -24,11 +23,9 @@ const Home: NextPage = () => {
   useEffect(() => {
     verifyUser()
       .then((data) => {
-        setIsUserVerified(true);
         router.push("/Home");
       })
       .catch((err) => {
-        setIsUserVerified(false);
         router.push("/auth/Login");
       });
   }, []);
