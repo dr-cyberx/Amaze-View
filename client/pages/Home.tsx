@@ -16,9 +16,12 @@ const Home: React.FunctionComponent = (): JSX.Element => {
   return (
     <>
       <Navbar />
-        <StandardView>
+      <StandardView>
+        <div>
+          <h1>hwllo world</h1>
           <ShowPosts />
-        </StandardView>
+        </div>
+      </StandardView>
     </>
   );
 };

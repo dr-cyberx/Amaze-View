@@ -6,7 +6,9 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     position: fixed;
-    z-index: 999;
+    z-index: 9;
+    top: 0%;
+    left: 0%;
     background-color: #fff;
   & .navbar {
     // border: 2px solid red;
@@ -24,7 +26,7 @@
       transition: all 0.3s ease-in-out;
     }
     & .nav_links li:hover {
-      color: black;
+      color: var(--color-primary);
     }
     & .navbar_logo {
       display: flex;
