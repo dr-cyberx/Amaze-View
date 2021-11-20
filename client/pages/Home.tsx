@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import router from "next/router";
 import Navbar from "@components/general/Navbar";
 import StandardView from "@components/general/StandardWidth";
-import PostCard from "@components/general/PostCard";
+import ShowPosts from "@components/Pages/ShowPosts";
 
 const Home: React.FunctionComponent = (): JSX.Element => {
   useEffect(() => {
@@ -17,7 +17,10 @@ const Home: React.FunctionComponent = (): JSX.Element => {
     <>
       <Navbar />
       <StandardView>
-        <PostCard />
+        <div>
+          <h1>hwllo world</h1>
+          <ShowPosts />
+        </div>
       </StandardView>
     </>
   );

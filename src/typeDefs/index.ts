@@ -27,6 +27,10 @@ const typeDefs: DocumentNode = gql`
   ${registerUserResponse}
   
   type loginOutput{message: String!, shouldLogin: Boolean!, token: String}
+  type updateUserResponse{
+    data: User
+    message: String
+  }
 
   type Mutation {
     ${RegisterUser}

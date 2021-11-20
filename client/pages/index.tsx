@@ -1,22 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import AmazeLoader from "@components/reusable/Loader";
 import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
   const router = useRouter();
 
+  const verifyUser = async () => {
+    const token = await localStorage.getItem("auth-Token");
+    return new Promise((resolve: any, reject: any) => {
+      if (token) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  };
+// asd
   useEffect(() => {
-    const token = localStorage.getItem("auth-Token");
-    if (token) {
-      router.push("/Home");
-    }
-    router.push("/auth/Login");
+    verifyUser()
+      .then((data) => {
+        router.push("/Home");
+      })
+      .catch((err) => {
+        router.push("/auth/Login");
+      });
   }, []);
 
-  return null;
+  return <AmazeLoader data={true} />;
 };
 
 export default Home;

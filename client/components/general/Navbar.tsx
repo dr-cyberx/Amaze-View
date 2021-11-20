@@ -9,6 +9,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "@styles/Navbar.module.scss";
+import router from "next/router";
 
 const Navbar: React.FunctionComponent = (): JSX.Element => {
   return (
@@ -19,16 +20,16 @@ const Navbar: React.FunctionComponent = (): JSX.Element => {
             <Logo size="small" />
           </div>
           <ul className={styles.nav_links}>
-            <li>
+            <li onClick={() => router.push("/Home")}>
               <FontAwesomeIcon size="1x" icon={faHome} /> Home
             </li>
-            <li>
+            <li onClick={() => router.push("/SearchFeed")}>
               <FontAwesomeIcon size="1x" icon={faSearch} /> Search
             </li>
-            <li>
+            <li onClick={() => router.push("/SearchFeed")}>
               <FontAwesomeIcon size="1x" icon={faBell} /> Notification
             </li>
-            <li>
+            <li onClick={() => router.push("/SearchFeed")}>
               <FontAwesomeIcon size="1x" icon={faUser} /> Profile
             </li>
           </ul>

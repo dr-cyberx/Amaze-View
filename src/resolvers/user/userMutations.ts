@@ -7,6 +7,10 @@ import User from "../../db/schema/index";
 export const user_Mutation_Operations = {
   RegisterUser: async (_parents: any, args: any) => {
     try {
+      const res = await User.findOne({ userName: args.userName });
+      console.log("res =>>>> ", res);
+      if (res) {
+      }
       const user = await new User(args);
       user.save();
 
@@ -15,24 +19,34 @@ export const user_Mutation_Operations = {
         `${process.env.TOKEN_STRING}`
       );
 
-      return { data: user, token };
+      return { data: user, token, message: "Register Successfully" };
     } catch (error) {
       console.log(error);
-      return { data: null, token: "" };
+      return { data: null, token: "", message: "failed to Register" };
     }
   },
 
-  updateUser: async (_parents: any, args: any) => {
-    const { id, data } = args;
-    try {
-      const checkUser = await User.findById(id);
-      if (checkUser) {
-        await User.findByIdAndUpdate(id, data, { lean: true });
-        const updatedUser = await User.findById(id);
-        return { id: updatedUser._doc._id, ...updatedUser._doc };
+  updateUser: async (_parents: any, args: any, context: any) => {
+    if (context.token) {
+      const { id, data } = args;
+      try {
+        const checkUser = await User.findById(id);
+        if (checkUser) {
+          await User.findByIdAndUpdate(id, data, { lean: true });
+          const updatedUser = await User.findById(id);
+          return {
+            data: { id: updatedUser._doc._id, ...updatedUser._doc },
+            message: "User Updated Successfully",
+          };
+        }
+      } catch (error) {
+        throw new ApolloError("user not found!", "PERSISTED_QUERY_NOT_FOUND");
       }
-    } catch (error) {
-      throw new ApolloError("user not found!", "PERSISTED_QUERY_NOT_FOUND");
+    } else {
+      return {
+        data: new ApolloError("validation failed!", "User updation failed"),
+        message: "validation failed",
+      };
     }
   },
 
