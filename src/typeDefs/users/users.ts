@@ -2,12 +2,12 @@ export const getAllUser = `getUser(query: String): [User]!`;
 
 export const user = `type User {
     id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     userName: String!
     password: String!
-    gender: Gender!
-    age: Int!
+    gender: Gender
+    age: Int
     phoneNumber: String!
     email: String!
   }`;
@@ -26,24 +26,24 @@ export const EditUser = `
 
 export const registerUserResponse = `
   type registerUserResponse{
-    data : User,
+    data : User
     token: String
   }
 `;
 
 export const RegisterUser = `
     RegisterUser(
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     userName: String!
-    gender: Gender!
+    gender: Gender
     password:String!
-    age: Int!
+    age: Int
     phoneNumber: String!
     email: String!
   ): registerUserResponse!
 `;
 
-export const updateUser = `updateUser(id: ID!, data: EditUser): User!`;
+export const updateUser = `updateUser(id: ID!, data: EditUser): updateUserResponse!`;
 
 export const Login = `Login(email: String, userName: String, password: String): loginOutput! `;

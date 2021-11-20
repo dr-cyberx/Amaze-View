@@ -5,6 +5,9 @@ import {
   faEyeSlash,
   faUser,
   faLock,
+  faEnvelope,
+  faPhone,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 
 import style from "./TextField.module.scss";
@@ -19,7 +22,7 @@ interface ITextField {
   Icon?: string;
 }
 
-const handleIcon = (Icon: string) => {
+const handleIcon = (Icon: string): IconDefinition => {
   switch (Icon) {
     case "eye":
       return faEye;
@@ -29,6 +32,10 @@ const handleIcon = (Icon: string) => {
       return faUser;
     case "password":
       return faLock;
+    case "email":
+      return faEnvelope;
+    case "phone":
+      return faPhone;
 
     default:
       return faEye;

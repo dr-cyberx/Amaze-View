@@ -16,6 +16,9 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: ({ req }) => {
+      return { token: req.headers.token || null };
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
@@ -28,7 +31,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 4000 }, resolve)
   );
-  
+
   await connectDB(`${process.env.MONGO_URI}`)
     .then((data) => {
       console.log(data);
