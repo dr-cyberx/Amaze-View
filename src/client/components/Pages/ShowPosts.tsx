@@ -4,7 +4,7 @@ import PostCard from "@components/general/PostCard";
 const ShowPosts: React.FC = (): JSX.Element => {
   return (
     <div>
-      {[...Array(20)].map((item) => (
+      {[1, 2, 3, 4, 5, 6, 7].map((item) => (
         <div key={item}>
           <PostCard />
         </div>

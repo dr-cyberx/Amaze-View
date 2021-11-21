@@ -27,9 +27,57 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     password: "",
     confirm_password: "",
   });
+  const [FormErros, setFormErrors] = useState<any>();
 
-  const handleSubmit = () => {
-    console.log("register_Details => ", userLoginDetails);
+  const handleValidation = (): boolean => {
+    let formIsValid = true;
+    let errors = {
+      userName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+      confirm_password: "",
+      passwordEqual: "",
+    };
+
+    if (!userLoginDetails["userName"]) {
+      formIsValid = false;
+      errors["userName"] = "userName Cannot be empty";
+    }
+    if (!userLoginDetails["email"]) {
+      formIsValid = false;
+      errors["email"] = "email Cannot be empty";
+    }
+    if (!userLoginDetails["phoneNumber"]) {
+      formIsValid = false;
+      errors["userName"] = "Phone number Cannot be empty";
+    }
+    if (!userLoginDetails["password"]) {
+      formIsValid = false;
+      errors["userName"] = "password Cannot be empty";
+    }
+    if (!userLoginDetails["userName"]) {
+      formIsValid = false;
+      errors["userName"] = "confirm password be empty";
+    }
+
+    if (userLoginDetails["password"] !== userLoginDetails["confirm_password"]) {
+      formIsValid = false;
+      errors["passwordEqual"] = "password & confirm password should be same";
+    }
+
+    setFormErrors(errors);
+    return formIsValid;
+  };
+
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (handleValidation()) {
+      alert("form submitted");
+    } else {
+      alert("form has errors");
+    }
+    console.log("register_Details => ");
   };
 
   const handleChange = (event: any): void => {
@@ -90,7 +138,12 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.confirm_password}
             />
-            <Button style={{marginTop:'20px'}} type="submit" label="Submit" size="medium" />
+            <Button
+              style={{ marginTop: "20px" }}
+              type="submit"
+              label="Submit"
+              size="medium"
+            />
           </form>
         </div>
       </div>
@@ -110,3 +163,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
 };
 
 export default SignUp;
+
+// Object.keys(userLoginDetails).map((item) => {
+
+// });

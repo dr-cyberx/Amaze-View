@@ -24,9 +24,20 @@ const Users: React.FC = (): React.ReactElement => {
   if (error) return <h3>failed to fetch</h3>;
   return (
     <div>
-      {data?.getUser?.map((d) => (
-        <h3 key={d.id}>{d.firstName}</h3>
-      ))}
+      {data?.getUser?.map(
+        (d: {
+          id: React.Key | null | undefined;
+          firstName:
+            | boolean
+            | React.ReactChild
+            | React.ReactFragment
+            | React.ReactPortal
+            | null
+            | undefined;
+        }) => (
+          <h3 key={d.id}>{d.firstName}</h3>
+        )
+      )}
     </div>
   );
 };
