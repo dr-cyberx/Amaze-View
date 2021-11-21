@@ -63,5 +63,9 @@
       // border: 2px solid red;
       width: 90%;
     }
+    & .linkSpan {
+      margin-top: 20px;
+      color: var(--color-primary);
+    }
   }
 }
