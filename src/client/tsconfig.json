@@ -5,6 +5,7 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@pages/*": ["pages/*"],
+      "@graphql/*": ["graphql-documents/*"],
       "@gql/*": ["gql/*"]
     },
     "target": "es5",

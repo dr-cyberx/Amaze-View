@@ -54,6 +54,20 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     ...user,
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("auth-Token");
+    if (token) {
+      router.push("/Home");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (data?.RegisterUser?.token) {
+      localStorage.setItem("auth-Token", data?.RegisterUser?.token);
+      router.push("/Home");
+    }
+  }, [data]);
+
   const handleValidation = (): boolean => {
     let formIsValid = true;
     let errors = {
@@ -65,7 +79,12 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
       formIsValid = false;
       errors["userName"] = "userName Cannot be empty";
     }
-    if (!userLoginDetails["email"]) {
+    if (
+      !userLoginDetails["email"] ||
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        userLoginDetails["email"]
+      )
+    ) {
       formIsValid = false;
       errors["email"] = "email Cannot be empty";
     }
@@ -94,9 +113,17 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (handleValidation()) {
-      alert("form submitted");
+      try {
+        RegisterUserInput({
+          variables: {
+            ...userLoginDetails,
+          },
+        });
+        alert("form submitted");
+      } catch (err) {
+        console.log(err);
+      }
     }
-    console.log("register_Details => ", userLoginDetails);
   };
 
   const handleChange = (event: any): void => {
