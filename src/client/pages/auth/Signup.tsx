@@ -1,6 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
+import Link from "next/link";
 import TextField from "@components/reusable/TextField";
 import Button from "@components/reusable/Button";
 import Logo from "@components/reusable/Logo";
@@ -119,7 +121,6 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
             ...userLoginDetails,
           },
         });
-        alert("form submitted");
       } catch (err) {
         console.log(err);
       }
@@ -194,13 +195,21 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
 
             <div>
               <Button
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "20px", marginBottom: "20px" }}
                 type="submit"
                 label="Submit"
                 size="medium"
               />
             </div>
           </form>
+          <Link href={"/auth/Login"} passHref>
+            <span
+              className={styles.linkSpan}
+              style={{ cursor: "pointer", fontSize: "1.2rem" }}
+            >
+              Already have a account?
+            </span>
+          </Link>
         </div>
       </div>
       <div className={styles.Login_right_wallpaper}>
