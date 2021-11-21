@@ -7,37 +7,58 @@ import Logo from "@components/reusable/Logo";
 import AmazeLoader from "@components/reusable/Loader";
 import styles from "@styles/Signup.module.scss";
 
-const LoginQuery = gql`
-  mutation Login($userName: String, $password: String, $email: String) {
-    Login(userName: $userName, email: $email, password: $password) {
-      message
-      shouldLogin
+const RegisterUserQuery = gql`
+  mutation RegisterUser(
+    $userName: String!
+    $password: String!
+    $phoneNumber: String!
+    $email: String!
+  ) {
+    RegisterUser(
+      userName: $userName
+      password: $password
+      phoneNumber: $phoneNumber
+      email: $email
+    ) {
       token
+      data {
+        id
+        userName
+        firstName
+        lastName
+        email
+        gender
+        age
+        password
+        phoneNumber
+      }
     }
   }
 `;
 
+const user = {
+  userName: "",
+  email: "",
+  phoneNumber: "",
+  password: "",
+  confirm_password: "",
+};
+
 const SignUp: React.FunctionComponent = (): JSX.Element => {
-  const [LoginInputVariables, { data, loading, error }] =
-    useMutation(LoginQuery);
+  const [RegisterUserInput, { data, loading, error }] =
+    useMutation(RegisterUserQuery);
   const [userLoginDetails, setUserLoginDetails] = useState({
-    userName: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    confirm_password: "",
+    ...user,
   });
-  const [FormErros, setFormErrors] = useState<any>();
+  const [FormErros, setFormErrors] = useState<any>({
+    ...user,
+  });
 
   const handleValidation = (): boolean => {
     let formIsValid = true;
     let errors = {
-      userName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirm_password: "",
-      passwordEqual: "",
+      ...user,
+      passwordEqual: "password should be equal",
     };
 
     if (!userLoginDetails["userName"]) {
@@ -50,15 +71,15 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     }
     if (!userLoginDetails["phoneNumber"]) {
       formIsValid = false;
-      errors["userName"] = "Phone number Cannot be empty";
+      errors["phoneNumber"] = "Phone number Cannot be empty";
     }
     if (!userLoginDetails["password"]) {
       formIsValid = false;
-      errors["userName"] = "password Cannot be empty";
+      errors["password"] = "password Cannot be empty";
     }
-    if (!userLoginDetails["userName"]) {
+    if (!userLoginDetails["confirm_password"]) {
       formIsValid = false;
-      errors["userName"] = "confirm password be empty";
+      errors["confirm_password"] = "confirm password be empty";
     }
 
     if (userLoginDetails["password"] !== userLoginDetails["confirm_password"]) {
@@ -74,10 +95,8 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     event.preventDefault();
     if (handleValidation()) {
       alert("form submitted");
-    } else {
-      alert("form has errors");
     }
-    console.log("register_Details => ");
+    console.log("register_Details => ", userLoginDetails);
   };
 
   const handleChange = (event: any): void => {
@@ -106,6 +125,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.userName}
             />
+            <span style={{ color: "red" }}>{FormErros["userName"]}</span>
             <TextField
               label="Email"
               type="text"
@@ -114,6 +134,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.email}
             />
+            <span style={{ color: "red" }}>{FormErros["email"]}</span>
             <TextField
               label="Phone number"
               type="number"
@@ -122,6 +143,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.phoneNumber}
             />
+            <span style={{ color: "red" }}>{FormErros["phoneNumber"]}</span>
             <TextField
               label="Password"
               type="password"
@@ -130,6 +152,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.password}
             />
+            <span style={{ color: "red" }}>{FormErros["password"]}</span>
             <TextField
               label="Confirm password"
               type="password"
@@ -138,12 +161,18 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.confirm_password}
             />
-            <Button
-              style={{ marginTop: "20px" }}
-              type="submit"
-              label="Submit"
-              size="medium"
-            />
+            <span style={{ color: "red" }}>
+              {FormErros["confirm_password"]}
+            </span>
+
+            <div>
+              <Button
+                style={{ marginTop: "20px" }}
+                type="submit"
+                label="Submit"
+                size="medium"
+              />
+            </div>
           </form>
         </div>
       </div>
