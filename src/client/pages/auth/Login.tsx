@@ -3,25 +3,26 @@ import React, { useEffect, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
 import Link from "next/link";
-import TextField from "../../components/reusable/TextField";
-import Button from "../../components/reusable/Button";
-import Logo from "../../components/reusable/Logo";
-import AmazeLoader from "../../components/reusable/Loader";
-import styles from "../../styles/Login.module.scss";
+import LOGIN from "@graphql-documents/LOGIN.graphql";
+import TextField from "@components/reusable/TextField";
+import Button from "@components/reusable/Button";
+import Logo from "@components/reusable/Logo";
+import AmazeLoader from "@components/reusable/Loader";
+import styles from "@styles/Login.module.scss";
 
-const LoginQuery = gql`
-  mutation Login($userName: String, $password: String, $email: String) {
-    Login(userName: $userName, email: $email, password: $password) {
-      message
-      shouldLogin
-      token
-    }
-  }
-`;
+// const LoginQuery = gql`
+//   mutation Login($userName: String, $password: String, $email: String) {
+//     Login(userName: $userName, email: $email, password: $password) {
+//       message
+//       shouldLogin
+//       token
+//     }
+//   }
+// `;
 
 const Login: React.FunctionComponent = (): JSX.Element => {
   const [LoginInputVariables, { data, loading, error }] =
-    useMutation(LoginQuery);
+    useMutation(LOGIN);
   const [userLoginDetails, setUserLoginDetails] = useState({
     email_userName: "",
     password: "",
@@ -128,7 +129,9 @@ const Login: React.FunctionComponent = (): JSX.Element => {
           </form>
 
           <Link href={"/auth/Signup"} passHref>
-            <span className={styles.linkSpan} style={{ cursor: "pointer" }}>Don't have Account?</span>
+            <span className={styles.linkSpan} style={{ cursor: "pointer" }}>
+              Don't have Account?
+            </span>
           </Link>
         </div>
       </div>
