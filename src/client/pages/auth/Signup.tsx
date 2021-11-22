@@ -7,36 +7,8 @@ import TextField from "@components/reusable/TextField";
 import Button from "@components/reusable/Button";
 import Logo from "@components/reusable/Logo";
 import AmazeLoader from "@components/reusable/Loader";
+import REGISTER_USER from "@graphql-documents/REGISTER_USER.graphql";
 import styles from "@styles/Signup.module.scss";
-
-const RegisterUserQuery = gql`
-  mutation RegisterUser(
-    $userName: String!
-    $password: String!
-    $phoneNumber: String!
-    $email: String!
-  ) {
-    RegisterUser(
-      userName: $userName
-      password: $password
-      phoneNumber: $phoneNumber
-      email: $email
-    ) {
-      token
-      data {
-        id
-        userName
-        firstName
-        lastName
-        email
-        gender
-        age
-        password
-        phoneNumber
-      }
-    }
-  }
-`;
 
 const user = {
   userName: "",
@@ -48,7 +20,7 @@ const user = {
 
 const SignUp: React.FunctionComponent = (): JSX.Element => {
   const [RegisterUserInput, { data, loading, error }] =
-    useMutation(RegisterUserQuery);
+    useMutation(REGISTER_USER);
   const [userLoginDetails, setUserLoginDetails] = useState({
     ...user,
   });

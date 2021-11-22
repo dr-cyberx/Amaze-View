@@ -5,8 +5,8 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@pages/*": ["pages/*"],
-      "@graphql/*": ["graphql-documents/*"],
-      "@gql/*": ["gql/*"]
+      // "@graphql/*": ["graphql-documents/*"],
+      "@graphql-documents/*": ["graphql-documents/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

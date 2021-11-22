@@ -1,0 +1,26 @@
+  mutation RegisterUser(
+    $userName: String!
+    $password: String!
+    $phoneNumber: String!
+    $email: String!
+  ) {
+    RegisterUser(
+      userName: $userName
+      password: $password
+      phoneNumber: $phoneNumber
+      email: $email
+    ) {
+      token
+      data {
+        id
+        userName
+        firstName
+        lastName
+        email
+        gender
+        age
+        password
+        phoneNumber
+      }
+    }
+  }

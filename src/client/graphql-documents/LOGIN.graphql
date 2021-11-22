@@ -1,0 +1,7 @@
+  mutation Login($userName: String, $password: String, $email: String) {
+    Login(userName: $userName, email: $email, password: $password) {
+      message
+      shouldLogin
+      token
+    }
+  }
