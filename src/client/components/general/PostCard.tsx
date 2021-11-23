@@ -27,23 +27,24 @@ const PostCard: React.FunctionComponent = (): JSX.Element => {
         </div>
       </div>
       <div className={style.Post_card_body}>
-        <Image
-          alt="Mountains"
-          src="/mountainWallpaper.jpg"
-          objectFit="cover"
-          height="450px"
-          width="800px"
-        />
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique
+          sed ad recusandae saepe dicta minus iusto mollitia inventore optio
+          quae repellat, obcaecati animi at ducimus quo modi sit, voluptate
+          nesciunt autem ipsum magni voluptates, officiis rerum nemo. Est cum
+          recusandae ex ab, dignissimos adipisci. Fuga fugiat mollitia
+          temporibus provident distinctio.
+        </p>
       </div>
       <div className={style.Post_card_foot}>
         <p>
-          <FontAwesomeIcon size="1x" icon={faThumbsUp} /> Like
+          5k <FontAwesomeIcon size="1x" icon={faThumbsUp} /> Like
         </p>
         <p>
-          <FontAwesomeIcon size="1x" icon={faComment} /> comment
+         6k <FontAwesomeIcon size="1x" icon={faComment} /> comment
         </p>
         <p>
-          <FontAwesomeIcon size="1x" icon={faShare} /> share
+         3k <FontAwesomeIcon size="1x" icon={faShare} /> share
         </p>
       </div>
     </div>
