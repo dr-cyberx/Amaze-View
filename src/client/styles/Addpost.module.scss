@@ -1,0 +1,22 @@
+.plusIcon {
+  position: fixed;
+  top: 78%;
+  left: 81%;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  display: flex;
+  background: var(--color-primary);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: all 0.2s ease-in-out;
+  & .icon_container {
+  }
+}
+
+.plusIcon:hover {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
