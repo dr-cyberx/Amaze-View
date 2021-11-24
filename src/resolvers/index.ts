@@ -1,4 +1,5 @@
 import { user_Mutation_Operations } from "./user/userMutations";
+import { PostMutation } from "./Post/PostMutation";
 import { user_Query } from "./user/userQuery";
 
 const resolvers = {
@@ -8,6 +9,7 @@ const resolvers = {
 
   Mutation: {
     ...user_Mutation_Operations,
+    ...PostMutation,
   },
 };
 

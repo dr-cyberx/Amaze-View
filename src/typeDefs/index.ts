@@ -9,6 +9,7 @@ import {
   getAllUser,
   registerUserResponse,
 } from "./users/users";
+import { CreatePost, Post } from "./Post/Post";
 
 const typeDefs: DocumentNode = gql`
   type Query {
@@ -25,6 +26,7 @@ const typeDefs: DocumentNode = gql`
   ${user}
   ${EditUser}
   ${registerUserResponse}
+  ${Post}
   
   type loginOutput{message: String!, shouldLogin: Boolean!, token: String}
   type updateUserResponse{
@@ -36,6 +38,7 @@ const typeDefs: DocumentNode = gql`
     ${RegisterUser}
     ${updateUser}
     ${Login}
+    ${CreatePost}
   }
 `;
 
