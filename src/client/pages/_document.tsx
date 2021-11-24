@@ -18,7 +18,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <div id="Create-Post"></div>
+          {/* <div id="Create-Post"></div> */}
           <NextScript />
         </body>
       </Html>

@@ -7,6 +7,7 @@ import ShowPosts from "@components/Pages/ShowPosts";
 import AddPost from "@components/general/AddPost";
 import MetaData from "@components/reusable/MetaData";
 import PostModel from "@components/general/PostModel";
+import Layout from "@components/reusable/Layout";
 
 const Home: React.FunctionComponent = (): JSX.Element => {
   const { state } = useContext(AmazeContext);
@@ -21,16 +22,9 @@ const Home: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <>
-      <MetaData title="Home" />
-      <Navbar />
-      <StandardView>
-        <div>
-          <h1>hwllo world</h1>
-          <ShowPosts />
-          <AddPost />
-        </div>
-      </StandardView>
-      {state.openPostModel && <PostModel />}
+      <Layout title="Home">
+        <ShowPosts />
+      </Layout>
     </>
   );
 };
