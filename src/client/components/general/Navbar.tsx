@@ -29,7 +29,7 @@ const Navbar: React.FunctionComponent = (): JSX.Element => {
             <li onClick={() => router.push("/SearchFeed")}>
               <FontAwesomeIcon size="1x" icon={faBell} /> Notification
             </li>
-            <li onClick={() => router.push("/SearchFeed")}>
+            <li onClick={() => router.push("/Profile")}>
               <FontAwesomeIcon size="1x" icon={faUser} /> Profile
             </li>
           </ul>
