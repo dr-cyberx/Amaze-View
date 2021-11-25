@@ -23,4 +23,5 @@ type PostPublisher{
 
 export const CreatePost = `
    CreatePost(postContent: String!,publisher: String!): Post
+   DeletePost(PostId:String!): Post
 `;

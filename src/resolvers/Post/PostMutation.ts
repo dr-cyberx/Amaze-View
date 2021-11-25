@@ -18,4 +18,22 @@ export const PostMutation = {
       publisher: user,
     };
   },
+
+  DeletePost: async (_parent: any, args: any) => {
+    const PostId = args?.PostId;
+    const post = await Post.findById({ _id: PostId });
+    if (post) {
+      await Post.deleteOne({ _id: PostId });
+      const userId = post.publisher;
+      await User.findByIdAndUpdate(
+        { _id: userId },
+        { $pull: { posts: PostId } }
+        );
+      return {
+        id: post._id,
+        postContent: post.postContent,
+        publisher: async () => await User.findById({ _id: userId }),
+      };
+    }
+  },
 };

@@ -33,7 +33,12 @@ const PostModel: React.FC = (): JSX.Element => {
           />
         </div>
         <form className={styles.post_model_form}>
-          <textarea rows={20} cols={50} placeholder="Enter Post here" />
+          <textarea
+            style={{ padding: "10px" }}
+            rows={20}
+            cols={50}
+            placeholder="Enter Post here"
+          />
           <Button
             label="Post your View"
             type="submit"
