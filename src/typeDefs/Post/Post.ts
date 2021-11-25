@@ -1,3 +1,5 @@
+export const getAllPost = `getAllPost(query:String):[getPostResponse]!`;
+
 export const Post = `
    type PostPublisher{
       id: ID!
@@ -14,11 +16,15 @@ export const Post = `
       postContent: String
       publisher: PostPublisher
    }
+   type getPostResponse{
+      id: ID!
+      postContent: String
+      publisher: PostPublisher
+   }
    type Post{
       data : PostType
       error: Boolean!
-      status: Int!
-      
+      status: Int! 
    }
 `;
 

@@ -14,7 +14,6 @@ const Home: React.FunctionComponent = (): JSX.Element => {
 
   useEffect(() => {
     const token = localStorage.getItem("auth-Token");
-    console.log(token);
     if (!token) {
       router.push("/auth/Login");
     }

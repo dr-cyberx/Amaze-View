@@ -1,6 +1,6 @@
-import { model, Schema } from "mongoose";
+import { Model, model, Schema } from "mongoose";
 
-const PostSchema = new Schema(
+const PostSchema: Schema<any, Model<any, any, any, any>, {}> = new Schema(
   {
     postContent: {
       type: String,

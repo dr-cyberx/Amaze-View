@@ -9,12 +9,13 @@ import {
   getAllUser,
   registerUserResponse,
 } from "./users/users";
-import { CreatePost, Post } from "./Post/Post";
+import { CreatePost, getAllPost, Post } from "./Post/Post";
 
 const typeDefs: DocumentNode = gql`
   type Query {
     hello: String!
     ${getAllUser}
+    ${getAllPost}
   }
 
   enum Gender {
@@ -27,6 +28,7 @@ const typeDefs: DocumentNode = gql`
   ${EditUser}
   ${registerUserResponse}
   ${Post}
+
   
   type loginOutput{message: String!, shouldLogin: Boolean!, token: String}
   type updateUserResponse{

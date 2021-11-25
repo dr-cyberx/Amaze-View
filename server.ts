@@ -34,7 +34,6 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   await connectDB(`${process.env.MONGO_URI}`)
     .then((data) => {
-      console.log(data);
       console.log(
         `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
       );
