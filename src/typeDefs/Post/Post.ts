@@ -1,23 +1,24 @@
-import { gql } from "apollo-server-express";
-import { DocumentNode } from "graphql";
-
 export const Post = `
-
-type PostPublisher{
-   id: ID!
-    firstName: String
-    lastName: String
-    userName: String
-    gender: Gender
-    age: Int
-    phoneNumber: String
-    email: String
-}
-   
-   type Post{
+   type PostPublisher{
+      id: ID!
+      firstName: String
+      lastName: String
+      userName: String
+      gender: Gender
+      age: Int
+      phoneNumber: String
+      email: String
+   }
+   type PostType{
       id: ID!
       postContent: String
       publisher: PostPublisher
+   }
+   type Post{
+      data : PostType
+      error: Boolean!
+      status: Int!
+      
    }
 `;
 

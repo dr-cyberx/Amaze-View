@@ -13,9 +13,13 @@ export const PostMutation = {
     const user = await User.findById({ _id: id });
 
     return {
-      id: newPost._id,
-      postContent: newPost.postContent,
-      publisher: user,
+      data: {
+        id: newPost._id,
+        postContent: newPost.postContent,
+        publisher: user,
+      },
+      error: false,
+      status: 200,
     };
   },
 
@@ -28,11 +32,15 @@ export const PostMutation = {
       await User.findByIdAndUpdate(
         { _id: userId },
         { $pull: { posts: PostId } }
-        );
+      );
       return {
-        id: post._id,
-        postContent: post.postContent,
-        publisher: async () => await User.findById({ _id: userId }),
+        data: {
+          id: post._id,
+          postContent: post.postContent,
+          publisher: async () => await User.findById({ _id: userId }),
+        },
+        error: false,
+        status: 200,
       };
     }
   },
