@@ -5,7 +5,14 @@ import jwt from "jsonwebtoken";
 import User from "../../db/schema/index";
 
 export const user_Mutation_Operations = {
-  RegisterUser: async (_parents: any, args: any) => {
+  RegisterUser: async (
+    _parents: any,
+    args: any
+  ): Promise<{
+    data: any;
+    token: string;
+    message: string;
+  }> => {
     try {
       const res = await User.findOne({ userName: args.userName });
       if (res) {
@@ -33,9 +40,17 @@ export const user_Mutation_Operations = {
     }
   },
 
-  updateUser: async (_parents: any, args: any, context: any) => {
-    console.log("user +>>> ", context.user);
-
+  updateUser: async (
+    _parents: any,
+    args: any,
+    context: any
+  ): Promise<
+    | {
+        data: any;
+        message: string;
+      }
+    | undefined
+  > => {
     try {
       if (context.token) {
         const { id, data } = args;
@@ -67,10 +82,15 @@ export const user_Mutation_Operations = {
     }
   },
 
-  Login: async (_parents: any, args: any) => {
+  Login: async (
+    _parents: any,
+    args: any
+  ): Promise<{
+    message: string;
+    shouldLogin: boolean;
+    token: string;
+  }> => {
     const { email, userName, password } = args;
-
-    console.log(args);
 
     if ((!email || !userName) && !password)
       return {

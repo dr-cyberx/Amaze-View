@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const connectDB = (uri: string) => {
+export const connectDB = (uri: string): Promise<any> => {
   return new Promise((resolve: any, reject: any) => {
     mongoose
       .connect(uri)
