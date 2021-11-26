@@ -98,21 +98,24 @@ export const user_Mutation_Operations = {
         shouldLogin: false,
         token: "",
       };
-
+    console.log("stage 1");
     const checkUser = email
       ? await User.findOne({ email })
       : await User.findOne({ userName });
-
+    console.log("stage 2");
     if (!checkUser)
       return { message: "user not found", shouldLogin: false, token: "" };
-
+    console.log("stage 3");
     try {
+      console.log("stage 4 head");
+      console.log("checkUser =>> ", checkUser);
       await checkUser.comparePassword(password);
+      console.log("stage 4 body");
       const token = await jwt.sign(
         { userId: checkUser._id },
         `${process.env.TOKEN_STRING}`
       );
-
+      console.log("stage 4");
       return {
         message: "logged in successfully",
         shouldLogin: true,
