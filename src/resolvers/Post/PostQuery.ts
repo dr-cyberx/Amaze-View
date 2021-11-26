@@ -6,7 +6,8 @@ import Post from "../../db/schema/Post";
 export const Post_Query = {
   getAllPost: async (
     _parent: any,
-    args: any
+    args: any,
+    context: any
   ): Promise<
     | {
         id: string;
@@ -16,26 +17,37 @@ export const Post_Query = {
     | undefined
   > => {
     try {
-      const res = await Post.find({});
-      if (res) {
-        const data: {
-          id: any;
-          postContent: any;
-          publisher: () => Promise<any>;
-        }[] = await Promise.all(
-          res.map((item: any) => {
-            return {
-              id: item._id,
-              postContent: item.postContent,
-              publisher: async () =>
-                await User.findById({ _id: item.publisher }),
-            };
-          })
-        );
-        return data;
+      if (context.token) {
+        try {
+          const res = await Post.find({});
+          if (res) {
+            const data: {
+              id: any;
+              postContent: any;
+              publisher: () => Promise<any>;
+            }[] = await Promise.all(
+              res.map((item: any) => {
+                return {
+                  id: item._id,
+                  postContent: item.postContent,
+                  publisher: async () =>
+                    await User.findById({ _id: item.publisher }),
+                };
+              })
+            );
+            return data;
+          }
+        } catch (error) {
+          throw new ApolloError(
+            "failed to get Posts",
+            "findAll Post query failed"
+          );
+        }
+      } else {
+        throw new ApolloError("Access denied", "getAllpost failed");
       }
-    } catch (error) {
-      throw new ApolloError("failed to get Posts", "findAll Post query failed");
+    } catch (err) {
+      throw new ApolloError("Access denied", "getAllpost failed");
     }
   },
 };

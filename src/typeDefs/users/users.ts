@@ -28,6 +28,7 @@ export const registerUserResponse = `
   type registerUserResponse{
     data : User
     token: String
+    message:String
   }
 `;
 
