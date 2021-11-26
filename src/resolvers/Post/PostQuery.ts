@@ -1,5 +1,6 @@
 import { ApolloError } from "apollo-server-core";
 import mongoose from "mongoose";
+import { JwtPayload, verify } from "jsonwebtoken";
 import User from "../../db/schema/index";
 import Post from "../../db/schema/Post";
 
@@ -16,8 +17,19 @@ export const Post_Query = {
       }[]
     | undefined
   > => {
+    const authString = process.env.TOKEN_STRING;
+    console.log("auth string =>>> ", authString);
     try {
       if (context.token) {
+        const resToken: string | JwtPayload = verify(
+          context.token,
+          `${process.env.TOKEN_STRING}`
+        );
+        const isValidUser = await User.findById({
+          _id: (<any>resToken).userId,
+        });
+        console.log((<any>resToken).userId, " <><><><><><><><> ", isValidUser);
+
         try {
           const res = await Post.find({});
           if (res) {
