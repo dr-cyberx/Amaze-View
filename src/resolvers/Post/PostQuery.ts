@@ -1,5 +1,6 @@
 import { ApolloError } from "apollo-server-core";
 import mongoose from "mongoose";
+import { JwtPayload, verify } from "jsonwebtoken";
 import User from "../../db/schema/index";
 import Post from "../../db/schema/Post";
 
@@ -12,24 +13,36 @@ export const Post_Query = {
     | {
         id: string;
         postContent: string;
+        location: string;
         publisher: () => Promise<any>;
       }[]
     | undefined
   > => {
+    const authString = process.env.TOKEN_STRING;
     try {
       if (context.token) {
+        const resToken: string | JwtPayload = verify(
+          context.token,
+          `${process.env.TOKEN_STRING}`
+        );
+        const isValidUser = await User.findById({
+          _id: (<any>resToken).userId,
+        });
+
         try {
-          const res = await Post.find({});
+          const res = await Post.find({}).sort([["updatedAt", -1]]);
           if (res) {
             const data: {
               id: any;
               postContent: any;
+              location: string;
               publisher: () => Promise<any>;
             }[] = await Promise.all(
               res.map((item: any) => {
                 return {
                   id: item._id,
                   postContent: item.postContent,
+                  location: item.location,
                   publisher: async () =>
                     await User.findById({ _id: item.publisher }),
                 };
@@ -44,7 +57,7 @@ export const Post_Query = {
           );
         }
       } else {
-        throw new ApolloError("Access denied", "getAllpost failed");
+        throw new ApolloError("Access denied 1", "getAllpost failed");
       }
     } catch (err) {
       throw new ApolloError("Access denied", "getAllpost failed");

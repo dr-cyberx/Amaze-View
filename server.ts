@@ -3,6 +3,7 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import express from "express";
 import http from "http";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 import { connectDB } from "./src/db/db";
@@ -11,13 +12,18 @@ import resolvers from "./src/resolvers/index";
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
   const app: express.Application = express();
+  var corsOptions = {
+    origin: "*",
+    credentials: true, // <-- REQUIRED backend setting
+  };
+  app.use(cors(corsOptions));
   const httpServer: http.Server = http.createServer(app);
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({ req }) => {
-      return { token: req.headers.token || null };
+      return { token: req.headers.authorization || null };
     },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });

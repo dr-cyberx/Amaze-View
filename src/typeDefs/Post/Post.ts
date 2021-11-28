@@ -11,16 +11,27 @@ export const Post = `
       phoneNumber: String
       email: String
    }
+
    type PostType{
       id: ID!
       postContent: String
+      location: String
+      likes:  [String]!
+      comments: [String]!
+      share: [String]!
       publisher: PostPublisher
    }
+
    type getPostResponse{
       id: ID!
       postContent: String
+      likes:  [String]!
+      comments: [String]!
+      share: [String]!
+      location: String
       publisher: PostPublisher
    }
+
    type Post{
       data : PostType
       error: Boolean!
@@ -29,6 +40,7 @@ export const Post = `
 `;
 
 export const CreatePost = `
-   CreatePost(postContent: String!,publisher: String!): Post
+   CreatePost(postContent: String!, location: String!, likes:[String]!, comments: [String]!,share:[String]! ,publisher: String!): Post
+
    DeletePost(PostId:String!): Post
 `;

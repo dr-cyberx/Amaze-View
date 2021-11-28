@@ -5,35 +5,39 @@ import User from "../../db/schema/index";
 export const PostMutation = {
   CreatePost: async (_parent: any, args: any) => {
     const id = args?.publisher;
-    try{
+    try {
       const newPost = await new Post(args).save();
       await User.findByIdAndUpdate(
         { _id: id },
         { $push: { posts: newPost._id } }
       );
       const user = await User.findById({ _id: id });
-  
+
       return {
         data: {
           id: newPost._id,
+          location: newPost.location,
+          likes: newPost.likes,
+          comments: newPost.comments,
+          share: newPost.share,
           postContent: newPost.postContent,
           publisher: user,
         },
         error: false,
         status: 200,
       };
-    }catch(error){
+    } catch (error) {
       return {
         data: error,
         error: true,
         status: 401,
-      }
+      };
     }
   },
 
   DeletePost: async (_parent: any, args: any) => {
     const PostId = args?.PostId;
-    try{
+    try {
       const post = await Post.findById({ _id: PostId });
       if (post) {
         await Post.deleteOne({ _id: PostId });
@@ -52,12 +56,12 @@ export const PostMutation = {
           status: 200,
         };
       }
-    }catch(error){
+    } catch (error) {
       return {
         data: error,
         error: true,
         status: 401,
-      }
+      };
     }
   },
 };
