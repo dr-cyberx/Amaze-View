@@ -13,12 +13,12 @@ export const Post_Query = {
     | {
         id: string;
         postContent: string;
+        location: string;
         publisher: () => Promise<any>;
       }[]
     | undefined
   > => {
     const authString = process.env.TOKEN_STRING;
-    console.log("auth string =>>> ", authString);
     try {
       if (context.token) {
         const resToken: string | JwtPayload = verify(
@@ -28,20 +28,21 @@ export const Post_Query = {
         const isValidUser = await User.findById({
           _id: (<any>resToken).userId,
         });
-        console.log((<any>resToken).userId, " <><><><><><><><> ", isValidUser);
 
         try {
-          const res = await Post.find({});
+          const res = await Post.find({}).sort([["updatedAt", -1]]);
           if (res) {
             const data: {
               id: any;
               postContent: any;
+              location: string;
               publisher: () => Promise<any>;
             }[] = await Promise.all(
               res.map((item: any) => {
                 return {
                   id: item._id,
                   postContent: item.postContent,
+                  location: item.location,
                   publisher: async () =>
                     await User.findById({ _id: item.publisher }),
                 };
@@ -56,7 +57,7 @@ export const Post_Query = {
           );
         }
       } else {
-        throw new ApolloError("Access denied", "getAllpost failed");
+        throw new ApolloError("Access denied 1", "getAllpost failed");
       }
     } catch (err) {
       throw new ApolloError("Access denied", "getAllpost failed");

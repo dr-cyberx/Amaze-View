@@ -8,7 +8,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import style from "@styles/PostCard.module.scss";
 
-const PostCard: React.FunctionComponent = (): JSX.Element => {
+interface IPostCard {
+  postContent: string;
+  location: string;
+  publisher: {
+    age: number;
+    email: string;
+    firstName: string;
+    gender: string;
+    id: string;
+    lastName: string;
+    phoneNumber: string;
+    userName: string;
+  };
+}
+
+const PostCard: React.FunctionComponent<IPostCard> = ({
+  postContent,
+  location,
+  publisher,
+}): JSX.Element => {
   return (
     <div className={style.Post_Card}>
       <div className={style.Post_card_head}>
@@ -22,29 +41,22 @@ const PostCard: React.FunctionComponent = (): JSX.Element => {
           />
         </div>
         <div style={{ cursor: "pointer" }}>
-          <p style={{ margin: "0", fontWeight: 450 }}>Raghav</p>
-          <p style={{ margin: "0", fontSize: "13px" }}>Sector 23, Mohali</p>
+          <p style={{ margin: "0", fontWeight: 450 }}>{publisher?.userName}</p>
+          <p style={{ margin: "0", fontSize: "13px" }}>{location}</p>
         </div>
       </div>
       <div className={style.Post_card_body}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique
-          sed ad recusandae saepe dicta minus iusto mollitia inventore optio
-          quae repellat, obcaecati animi at ducimus quo modi sit, voluptate
-          nesciunt autem ipsum magni voluptates, officiis rerum nemo. Est cum
-          recusandae ex ab, dignissimos adipisci. Fuga fugiat mollitia
-          temporibus provident distinctio.
-        </p>
+        <p style={{ marginTop: "0px" }}>{postContent}</p>
       </div>
       <div className={style.Post_card_foot}>
         <p>
           5k <FontAwesomeIcon size="1x" icon={faThumbsUp} /> Like
         </p>
         <p>
-         6k <FontAwesomeIcon size="1x" icon={faComment} /> comment
+          6k <FontAwesomeIcon size="1x" icon={faComment} /> comment
         </p>
         <p>
-         3k <FontAwesomeIcon size="1x" icon={faShare} /> share
+          3k <FontAwesomeIcon size="1x" icon={faShare} /> share
         </p>
       </div>
     </div>
