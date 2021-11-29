@@ -139,12 +139,50 @@ export const PostMutation = {
     }
   },
 
-  AddComment: async (_parent: any, args: any, context: any) => {
-    const { postId, userId, commentContent } = args;
-    try{
-      if(context.token){
-        
+  AddComments: async (
+    _parent: any,
+    args: any,
+    context: any
+  ): Promise<
+    | {
+        message: string;
+        status: number;
       }
+    | {
+        message: ApolloError;
+        status: number;
+      }
+  > => {
+    const { postId, userId, commentContent } = args;
+    try {
+      if (context.token) {
+        const resToken: string | JwtPayload = verify(
+          context.token,
+          `${process.env.TOKEN_STRING}`
+        );
+        const isValidUser = await User.findById({
+          _id: (<any>resToken).userId,
+        });
+        if (isValidUser.email || isValidUser.userName) {
+          await Post.findByIdAndUpdate(
+            { _id: postId },
+            { $push: { comments: { id: userId, commentContent } } }
+          );
+          return {
+            message: "Comment Added Successfully",
+            status: 200,
+          };
+        }
+      }
+      return {
+        message: new ApolloError("Access Denied", "adding Comment failed"),
+        status: 404,
+      };
+    } catch (error) {
+      return {
+        message: new ApolloError("adding likes failed", `${error}`),
+        status: 404,
+      };
     }
   },
 };

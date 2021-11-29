@@ -47,6 +47,6 @@ export const Post = `
 export const CreatePost = `
    CreatePost(postContent: String!, location: String!,publisher: String!): Post
    AddLike(postId: String!, userId:String!): likeResponse
-   AddComments(postId: String!, userId:String!, commentContent:String!): String
+   AddComments(postId: String!, userId:String!, commentContent:String!): likeResponse
    DeletePost(PostId:String!): Post
 `;
