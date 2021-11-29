@@ -18,7 +18,6 @@ export const Post_Query = {
       }[]
     | undefined
   > => {
-    const authString = process.env.TOKEN_STRING;
     try {
       if (context.token) {
         const resToken: string | JwtPayload = verify(
@@ -28,27 +27,30 @@ export const Post_Query = {
         const isValidUser = await User.findById({
           _id: (<any>resToken).userId,
         });
-
         try {
-          const res = await Post.find({}).sort([["updatedAt", -1]]);
-          if (res) {
-            const data: {
-              id: any;
-              postContent: any;
-              location: string;
-              publisher: () => Promise<any>;
-            }[] = await Promise.all(
-              res.map((item: any) => {
-                return {
-                  id: item._id,
-                  postContent: item.postContent,
-                  location: item.location,
-                  publisher: async () =>
-                    await User.findById({ _id: item.publisher }),
-                };
-              })
-            );
-            return data;
+          if (isValidUser.email || isValidUser.userName) {
+            const res = await Post.find({}).sort([["updatedAt", -1]]);
+            if (res) {
+              const data: {
+                id: any;
+                postContent: any;
+                location: string;
+                publisher: () => Promise<any>;
+              }[] = await Promise.all(
+                res.map((item: any) => {
+                  return {
+                    id: item._id,
+                    postContent: item.postContent,
+                    likes: item.likes,
+                    comments: item.comments,
+                    location: item.location,
+                    publisher: async () =>
+                      await User.findById({ _id: item.publisher }),
+                  };
+                })
+              );
+              return data;
+            }
           }
         } catch (error) {
           throw new ApolloError(
