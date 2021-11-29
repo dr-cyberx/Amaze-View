@@ -1,3 +1,12 @@
+@keyframes slideInFromTop {
+  0% {
+    transform: translatey(-100%);
+  }
+  100% {
+    transform: translatey(0);
+  }
+}
+
 .Post_Card {
   width: 750px;
   margin: auto;
@@ -7,6 +16,7 @@
     transform: scale(0.97);
     // border: 2px solid red;
     margin-bottom: 10px;
+    animation: 0.5s ease-out 0s 1 slideInFromTop;
   & .Post_card_head {
     display: flex;
     padding: 10px;

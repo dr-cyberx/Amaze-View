@@ -9,9 +9,14 @@ import MetaData from "./MetaData";
 interface ILayout {
   children: JSX.Element;
   title: string;
+  refetchPosts?: any;
 }
 
-const Layout: React.FC<ILayout> = ({ children, title }): JSX.Element => {
+const Layout: React.FC<ILayout> = ({
+  children,
+  title,
+  refetchPosts,
+}): JSX.Element => {
   const { state } = useContext(AmazeContext);
   return (
     <>
@@ -24,7 +29,7 @@ const Layout: React.FC<ILayout> = ({ children, title }): JSX.Element => {
           <AddPost />
         </div>
       </StandardView>
-      {state.openPostModel && <PostModel />}
+      {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
     </>
   );
 };
