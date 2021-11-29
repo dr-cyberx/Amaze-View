@@ -5,19 +5,7 @@ import User from "../../db/schema/index";
 import Post from "../../db/schema/Post";
 
 export const Post_Query = {
-  getAllPost: async (
-    _parent: any,
-    args: any,
-    context: any
-  ): Promise<
-    | {
-        id: string;
-        postContent: string;
-        location: string;
-        publisher: () => Promise<any>;
-      }[]
-    | undefined
-  > => {
+  getAllPost: async (_parent: any, args: any, context: any) => {
     const authString = process.env.TOKEN_STRING;
     try {
       if (context.token) {
@@ -42,6 +30,8 @@ export const Post_Query = {
                 return {
                   id: item._id,
                   postContent: item.postContent,
+                  likes: item.likes,
+                  comments: item.comments,
                   location: item.location,
                   publisher: async () =>
                     await User.findById({ _id: item.publisher }),

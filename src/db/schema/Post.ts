@@ -18,14 +18,14 @@ const PostSchema: Schema<any, Model<any, any, any, any>, {}> = new Schema(
     ],
     comments: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "user",
-      },
-    ],
-    share: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "user",
+        id: {
+          type: Schema.Types.ObjectId,
+          ref: "user",
+        },
+        commentContent: {
+          type: String,
+          requried: true
+        },
       },
     ],
     publisher: {

@@ -3,7 +3,14 @@ import Post from "../../db/schema/Post";
 import User from "../../db/schema/index";
 
 export const PostMutation = {
-  CreatePost: async (_parent: any, args: any) => {
+  CreatePost: async (
+    _parent: any,
+    args: any
+  ): Promise<{
+    data: unknown;
+    error: boolean;
+    status: number;
+  }> => {
     const id = args?.publisher;
     try {
       const newPost = await new Post(args).save();
@@ -13,14 +20,14 @@ export const PostMutation = {
       );
       const user = await User.findById({ _id: id });
 
+      const { location, likes, comments, postContent } = newPost;
       return {
         data: {
           id: newPost._id,
-          location: newPost.location,
-          likes: newPost.likes,
-          comments: newPost.comments,
-          share: newPost.share,
-          postContent: newPost.postContent,
+          location,
+          likes,
+          comments,
+          postContent,
           publisher: user,
         },
         error: false,
@@ -35,7 +42,17 @@ export const PostMutation = {
     }
   },
 
-  DeletePost: async (_parent: any, args: any) => {
+  DeletePost: async (
+    _parent: any,
+    args: any
+  ): Promise<
+    | {
+        data: unknown;
+        error: boolean;
+        status: number;
+      }
+    | undefined
+  > => {
     const PostId = args?.PostId;
     try {
       const post = await Post.findById({ _id: PostId });
@@ -50,7 +67,8 @@ export const PostMutation = {
           data: {
             id: post._id,
             postContent: post.postContent,
-            publisher: async () => await User.findById({ _id: userId }),
+            publisher: async (): Promise<any> =>
+              await User.findById({ _id: userId }),
           },
           error: false,
           status: 200,
@@ -64,4 +82,5 @@ export const PostMutation = {
       };
     }
   },
+  AddLike: async (_parent: any, args: any, context: any) => {},
 };
