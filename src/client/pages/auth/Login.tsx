@@ -10,16 +10,6 @@ import Logo from "@components/reusable/Logo";
 import AmazeLoader from "@components/reusable/Loader";
 import styles from "@styles/Login.module.scss";
 
-// const LoginQuery = gql`
-//   mutation Login($userName: String, $password: String, $email: String) {
-//     Login(userName: $userName, email: $email, password: $password) {
-//       message
-//       shouldLogin
-//       token
-//     }
-//   }
-// `;
-
 const Login: React.FunctionComponent = (): JSX.Element => {
   const [LoginInputVariables, { data, loading, error }] =
     useMutation(LOGIN);
