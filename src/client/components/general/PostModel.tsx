@@ -9,7 +9,11 @@ import Button from "@components/reusable/Button";
 import styles from "@styles/PostModel.module.scss";
 import AmazeLoader from "@components/reusable/Loader";
 
-const PostModel: React.FC = (): JSX.Element => {
+interface ipostModel {
+  refetchPost?: any;
+}
+
+const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
   const [addPost, { loading }] = useMutation(CREATE_POST);
   const [ModelData, setModeldata] = useState({
     location: "",
@@ -18,13 +22,15 @@ const PostModel: React.FC = (): JSX.Element => {
 
   const { ClosePost } = useContext(AmazeContext);
 
-  const handleSubmit = async (_event: any) => {
+  const handleSubmit = async (_event: any): Promise<void> => {
     _event.preventDefault();
     await addPost({
       variables: {
         postContent: ModelData.postContent,
         location: ModelData.location,
       },
+    }).then(() => {
+      refetchPost && refetchPost();
     });
   };
 

@@ -5,13 +5,20 @@ import GET_ALL_POST from "@graphql-documents/GET_ALL_POST.graphql";
 import PostCard from "@components/general/PostCard";
 import { AmazeContext } from "utils";
 
-const ShowPosts: React.FC = (): JSX.Element => {
+interface IShowPosts {
+  data: any;
+  loading: any;
+  refetch: any;
+}
+
+const ShowPosts: React.FC<IShowPosts> = ({
+  data,
+  loading,
+  refetch,
+}): JSX.Element => {
   const { state } = useContext(AmazeContext);
   const { openPostModel } = state;
   const [PostData, setPostData] = useState<any>();
-  const { data, loading, refetch } = useQuery(GET_ALL_POST, {
-    fetchPolicy: "cache-first", // Used for first execution
-  });
 
   React.useEffect(() => {
     setPostData(data);
