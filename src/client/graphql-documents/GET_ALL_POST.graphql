@@ -1,0 +1,17 @@
+query GetAllPost {
+  getAllPost {
+    id
+    postContent
+    location
+    publisher {
+      id
+      firstName
+      lastName
+      email
+      gender
+      age
+      phoneNumber
+      userName
+    }
+  }
+}
