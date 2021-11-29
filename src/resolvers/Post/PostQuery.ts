@@ -28,7 +28,6 @@ export const Post_Query = {
         const isValidUser = await User.findById({
           _id: (<any>resToken).userId,
         });
-        console.log((<any>resToken).userId, " <><><><><><><><> ", isValidUser);
 
         try {
           const res = await Post.find({});
