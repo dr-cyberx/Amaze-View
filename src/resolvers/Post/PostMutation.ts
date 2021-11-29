@@ -82,5 +82,7 @@ export const PostMutation = {
       };
     }
   },
-  AddLike: async (_parent: any, args: any, context: any) => {},
+  AddLike: async (_parent: any, args: any, context: any) => {
+    const {} = args;
+  },
 };
