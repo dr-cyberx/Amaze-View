@@ -18,16 +18,17 @@ export const Post = `
       location: String
       likes:  [String]!
       comments: [String]!
-      share: [String]!
       publisher: PostPublisher
    }
-
+   type commentResponse{
+      id:String,
+      commentContent: String
+   }
    type getPostResponse{
       id: ID!
       postContent: String
       likes:  [String]!
-      comments: [String]!
-      share: [String]!
+      comments: [commentResponse]!
       location: String
       publisher: PostPublisher
    }
@@ -37,10 +38,15 @@ export const Post = `
       error: Boolean!
       status: Int! 
    }
+   type likeResponse{
+      message: String!,
+      status: Int
+   }
 `;
 
 export const CreatePost = `
-   CreatePost(postContent: String!, location: String!, likes:[String]!, comments: [String]!,share:[String]! ,publisher: String!): Post
-
+   CreatePost(postContent: String!, location: String!,publisher: String!): Post
+   AddLike(postId: String!, userId:String!): likeResponse
+   AddComments(postId: String!, userId:String!, commentContent:String!): String
    DeletePost(PostId:String!): Post
 `;

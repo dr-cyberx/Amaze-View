@@ -41,6 +41,8 @@ export const Post_Query = {
                   return {
                     id: item._id,
                     postContent: item.postContent,
+                    likes: item.likes,
+                    comments: item.comments,
                     location: item.location,
                     publisher: async () =>
                       await User.findById({ _id: item.publisher }),
