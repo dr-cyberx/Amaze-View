@@ -1,0 +1,15 @@
+mutation CreatePost($postContent: String!, $location: String!) {
+  CreatePost(postContent: $postContent, location: $location) {
+    data {
+      id
+      postContent
+      publisher {
+        id
+        email
+        userName
+      }
+    }
+    error
+    status
+  }
+}

@@ -7,34 +7,57 @@ import { ApolloError } from "apollo-server-errors";
 export const PostMutation = {
   CreatePost: async (
     _parent: any,
-    args: any
+    args: any,
+    context: any
   ): Promise<{
     data: unknown;
     error: boolean;
     status: number;
   }> => {
-    const id = args?.publisher;
     try {
-      const newPost = await new Post(args).save();
-      await User.findByIdAndUpdate(
-        { _id: id },
-        { $push: { posts: newPost._id } }
-      );
-      const user = await User.findById({ _id: id });
+      if (context.token) {
+        const resToken: string | JwtPayload = verify(
+          context.token,
+          `${process.env.TOKEN_STRING}`
+        );
 
-      const { location, likes, comments, postContent } = newPost;
-      return {
-        data: {
-          id: newPost._id,
-          location,
-          likes,
-          comments,
-          postContent,
-          publisher: user,
-        },
-        error: false,
-        status: 200,
-      };
+        const id = (<any>resToken).userId;
+
+        try {
+          const newPost = await new Post({
+            ...args,
+            publisher: id,
+          }).save();
+
+          await User.findByIdAndUpdate(
+            { _id: id },
+            { $push: { posts: newPost._id } }
+          );
+          const user = await User.findById({ _id: id });
+
+          const { location, likes, comments, postContent } = newPost;
+          return {
+            data: {
+              id: newPost._id,
+              location,
+              likes,
+              comments,
+              postContent,
+              publisher: user,
+            },
+            error: false,
+            status: 200,
+          };
+        } catch (error) {
+          return {
+            data: error,
+            error: true,
+            status: 401,
+          };
+        }
+      } else {
+        throw new ApolloError("Access Denied", "authentication failed");
+      }
     } catch (error) {
       return {
         data: error,
