@@ -1,0 +1,6 @@
+mutation AddComments($postId: String!, $commentContent: String!) {
+  AddComments(postId: $postId, commentContent: $commentContent) {
+     message
+     status
+  }
+}
