@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CREATE_POST from "@graphql-documents/CREATE_POST.graphql";
 import { AmazeContext } from "utils/index";
 import Button from "@components/reusable/Button";
-import styles from "@styles/PostModel.module.scss";
+import AmazeModel from "@components/reusable/Model";
+import styles from "@styles/AmazeModel.module.scss";
 import AmazeLoader from "@components/reusable/Loader";
 
 interface ipostModel {
@@ -35,8 +36,7 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
   };
 
   return (
-    <div className={styles.postModel}>
-      <div className={styles.post_model_container}>
+    <AmazeModel>
         <div className={styles.post_model_head}>
           {loading && <AmazeLoader data={loading} />}
           <div className={styles.userIcon}>
@@ -91,8 +91,7 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
             style={{ fontWeight: 900, width: "100%" }}
           />
         </form>
-      </div>
-    </div>
+    </AmazeModel>
   );
 };
 
