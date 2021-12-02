@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { useMutation } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,7 @@ import {
   faComment,
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
+import { AmazeContext } from "utils";
 import ADD_LIKES from "@graphql-documents/ADD_LIKES.graphql";
 import ADD_COMMENTS from "@graphql-documents/ADD_COMMENTS.graphql";
 import style from "@styles/PostCard.module.scss";
@@ -20,13 +21,12 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   postData,
   location,
 }): JSX.Element => {
+  const { openCommentModel, CloseCommentModel } = useContext(AmazeContext);
   const [postdata, setPostData] = useState(postData);
   const [likeLength, setLikeLength] = useState(postData.likes.length);
 
   const [addLikes] = useMutation(ADD_LIKES);
   const [addComments] = useMutation(ADD_COMMENTS);
-
-  console.log(postData);
 
   const handleLikes = async () => {
     setLikeLength((previousVal: number) => previousVal + 1);
@@ -35,6 +35,10 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
         postId: postdata?.id,
       },
     });
+  };
+
+  const handleComment = async () => {
+    openCommentModel(postData.comments);
   };
 
   return (
@@ -63,7 +67,7 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
         <p onClick={handleLikes}>
           {likeLength} <FontAwesomeIcon size="1x" icon={faThumbsUp} /> Likes
         </p>
-        <p>
+        <p onClick={handleComment}>
           {postdata?.comments.length === 0 ? "" : postdata?.comments.length}{" "}
           <FontAwesomeIcon size="1x" icon={faComment} /> comment
         </p>

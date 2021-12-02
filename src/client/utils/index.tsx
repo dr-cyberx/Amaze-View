@@ -14,6 +14,22 @@ const reducer = (state: any, action: any) => {
         ...state,
         openPostModel: false,
       };
+    case "OPEN_COMMENT_MODEL":
+      return {
+        ...state,
+        openCommentModel: {
+          shouldbe: true,
+          CommentData: action.payload,
+        },
+      };
+    case "CLOSE_COMMENT_MODEL":
+      return {
+        ...state,
+        openCommentModel: {
+          shouldbe: false,
+          CommentData: null,
+        },
+      };
     default:
       break;
   }
@@ -22,18 +38,29 @@ const reducer = (state: any, action: any) => {
 export const AmazeProvider = ({ children }: { children: JSX.Element }) => {
   const [state, dispatch] = useReducer(reducer, {
     openPostModel: false,
+    openCommentModel: { shouldbe: false, CommentData: null },
   });
 
-  const OpenPost = () => {
-    dispatch({ type: "OPEN_MODEL" });
+  const OpenPost = () => dispatch({ type: "OPEN_MODEL" });
+
+  const ClosePost = () => dispatch({ type: "CLOSE_MODEL" });
+
+  const openCommentModel = (args: any) => {
+    dispatch({ type: "OPEN_COMMENT_MODEL", payload: args });
   };
 
-  const ClosePost = () => {
-    dispatch({ type: "CLOSE_MODEL" });
-  };
+  const CloseCommentModel = () => dispatch({ type: "CLOSE_COMMENT_MODEL" });
 
   return (
-    <AmazeContext.Provider value={{ OpenPost, ClosePost, state }}>
+    <AmazeContext.Provider
+      value={{
+        OpenPost,
+        ClosePost,
+        openCommentModel,
+        CloseCommentModel,
+        state,
+      }}
+    >
       {children}
     </AmazeContext.Provider>
   );

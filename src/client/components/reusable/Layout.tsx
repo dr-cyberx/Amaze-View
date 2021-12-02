@@ -1,4 +1,5 @@
 import AddPost from "@components/general/AddPost";
+import CommentModel from "@components/general/CommentModel";
 import Navbar from "@components/general/Navbar";
 import PostModel from "@components/general/PostModel";
 import StandardView from "@components/general/StandardWidth";
@@ -30,6 +31,9 @@ const Layout: React.FC<ILayout> = ({
         </div>
       </StandardView>
       {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
+      {state.openCommentModel.shouldbe && (
+        <CommentModel commentData={state.openCommentModel.CommentData} />
+      )}
     </>
   );
 };

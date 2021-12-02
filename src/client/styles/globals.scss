@@ -3,6 +3,14 @@
   --color-primary-text: #696969;
   --color-additional: #ffce00;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #c4c4c4;
+  border-radius: 100px;
+}
 
 html,
 body {
