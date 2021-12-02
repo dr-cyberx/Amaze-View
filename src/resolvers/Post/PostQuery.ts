@@ -34,7 +34,9 @@ export const Post_Query = {
               const data: {
                 id: any;
                 postContent: any;
-                location: string;
+                likes: any;
+                comments: () => Promise<any>;
+                location: any;
                 publisher: () => Promise<any>;
               }[] = await Promise.all(
                 res.map((item: any) => {
@@ -42,7 +44,12 @@ export const Post_Query = {
                     id: item._id,
                     postContent: item.postContent,
                     likes: item.likes,
-                    comments: item.comments,
+                    comments: async () =>
+                      await item.comments.map((d: any) => ({
+                        commentContent: d.commentContent,
+                        user: async () =>
+                          await User.findById({ _id: d.userId }),
+                      })),
                     location: item.location,
                     publisher: async () =>
                       await User.findById({ _id: item.publisher }),
@@ -62,7 +69,7 @@ export const Post_Query = {
         throw new ApolloError("Access denied 1", "getAllpost failed");
       }
     } catch (err) {
-      throw new ApolloError("Access denied", "getAllpost failed");
+      throw new ApolloError("Access denied 1", "getAllpost failed");
     }
   },
 };

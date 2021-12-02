@@ -33,11 +33,7 @@ const ShowPosts: React.FC<IShowPosts> = ({
       <AmazeLoader data={loading} />
       {PostData?.getAllPost?.map((item: any) => (
         <div key={item.id}>
-          <PostCard
-            postContent={item.postContent}
-            location={item.location}
-            publisher={item.publisher}
-          />
+          <PostCard postData={item} location={item.location} />
         </div>
       ))}
     </div>

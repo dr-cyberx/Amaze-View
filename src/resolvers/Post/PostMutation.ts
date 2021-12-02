@@ -122,7 +122,7 @@ export const PostMutation = {
         status: number;
       }
   > => {
-    const { postId, userId } = args;
+    const { postId } = args;
 
     try {
       if (context.token) {
@@ -136,7 +136,7 @@ export const PostMutation = {
         if (isValidUser.email || isValidUser.userName) {
           await Post.findByIdAndUpdate(
             { _id: postId },
-            { $push: { likes: userId } }
+            { $push: { likes: (<any>resToken).userId } }
           );
 
           return {
@@ -176,7 +176,7 @@ export const PostMutation = {
         status: number;
       }
   > => {
-    const { postId, userId, commentContent } = args;
+    const { postId, commentContent } = args;
     try {
       if (context.token) {
         const resToken: string | JwtPayload = verify(
@@ -189,7 +189,7 @@ export const PostMutation = {
         if (isValidUser.email || isValidUser.userName) {
           await Post.findByIdAndUpdate(
             { _id: postId },
-            { $push: { comments: { id: userId, commentContent } } }
+            { $push: { comments: { userId:  (<any>resToken).userId, commentContent } } }
           );
           return {
             message: "Comment Added Successfully",

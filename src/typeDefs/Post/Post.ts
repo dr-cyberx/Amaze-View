@@ -21,7 +21,7 @@ export const Post = `
       publisher: PostPublisher
    }
    type commentResponse{
-      id:String,
+      user:PostPublisher,
       commentContent: String
    }
    type getPostResponse{
@@ -46,7 +46,7 @@ export const Post = `
 
 export const CreatePost = `
    CreatePost(postContent: String!, location: String!): Post
-   AddLike(postId: String!, userId:String!): likeResponse
-   AddComments(postId: String!, userId:String!, commentContent:String!): likeResponse
+   AddLike(postId: String!): likeResponse
+   AddComments(postId: String!, commentContent:String!): likeResponse
    DeletePost(PostId:String!): Post
 `;

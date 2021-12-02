@@ -2,15 +2,17 @@ query GetAllPost {
   getAllPost {
     id
     postContent
+    likes
     location
+    comments {
+      commentContent
+      id
+    }
     publisher {
+      firstName
       id
       firstName
-      lastName
       email
-      gender
-      age
-      phoneNumber
       userName
     }
   }

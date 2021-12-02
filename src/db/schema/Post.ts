@@ -18,7 +18,7 @@ const PostSchema: Schema<any, Model<any, any, any, any>, {}> = new Schema(
     ],
     comments: [
       {
-        id: {
+        userId: {
           type: Schema.Types.ObjectId,
           ref: "user",
         },
