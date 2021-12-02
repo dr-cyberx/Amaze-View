@@ -45,7 +45,11 @@ export const Post_Query = {
                     postContent: item.postContent,
                     likes: item.likes,
                     comments: async () =>
-                      await User.findById({ _id: item.comments.id }),
+                      await item.comments.map((d: any) => ({
+                        commentContent: d.commentContent,
+                        user: async () =>
+                          await User.findById({ _id: d.userId }),
+                      })),
                     location: item.location,
                     publisher: async () =>
                       await User.findById({ _id: item.publisher }),
@@ -65,7 +69,6 @@ export const Post_Query = {
         throw new ApolloError("Access denied 1", "getAllpost failed");
       }
     } catch (err) {
-      console.log(">>>>>>>>>>> ", err);
       throw new ApolloError("Access denied 1", "getAllpost failed");
     }
   },
