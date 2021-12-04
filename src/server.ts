@@ -6,9 +6,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
 
-import { connectDB } from "./src/db/db";
-import typeDefs from "./src/typeDefs/index";
-import resolvers from "./src/resolvers/index";
+import { connectDB } from "./db/db";
+import typeDefs from "./typeDefs/index";
+import resolvers from "./resolvers/index";
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
   const app: express.Application = express();
