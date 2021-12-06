@@ -7,11 +7,13 @@ import { AmazeContext } from "utils";
 import Button from "@components/reusable/Button";
 interface ICommentModel {
   commentData: any;
+  refetchPost?: any;
 }
 
 const CommentModel: React.FunctionComponent<ICommentModel> = ({
   children,
   commentData,
+  refetchPost,
 }) => {
   const { CloseCommentModel } = useContext(AmazeContext);
 
@@ -58,6 +60,7 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
             label="Add Your Comment"
             size="medium"
             style={{ fontWeight: 900, width: "100%" }}
+            handleClick={() => refetchPost && refetchPost()}
           />
         </div>
       </div>

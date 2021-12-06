@@ -13,6 +13,10 @@ const Home: React.FunctionComponent = (): JSX.Element => {
   });
 
   useEffect(() => {
+    console.log("refetching---->>>>>> ");
+  }, [refetch]);
+
+  useEffect(() => {
     const token = localStorage.getItem("auth-Token");
     if (!token) {
       router.push("/auth/Login");
