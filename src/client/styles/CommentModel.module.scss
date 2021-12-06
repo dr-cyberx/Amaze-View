@@ -28,7 +28,7 @@
       border-radius: 6px;
     }
     & textarea:focus {
-      border: 2px solid var(--color-primary);
+      // border: 2px solid var(--color-primary);
       box-shadow: rgba(0, 157, 255, 0.442) 0px 0px 8px 3px;
       
     }
@@ -38,7 +38,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0px 35px;
-    height: 380px;
+    height: 374px;
     overflow-y: scroll;
 
     & .CommentModel__singleComment{
@@ -48,7 +48,7 @@
       width: 100%;
       margin-top: 10px;
       border-radius: 6px;
-     transition: all 0.2s ease-in-out;
+     transition: all 0.1s ease-in-out;
       box-shadow: rgba(0, 0, 0, 0.081) 0px 0px 0px 1px;
       & h4{
         margin: 0px;
@@ -59,9 +59,16 @@
 
     }
     & .CommentModel__singleComment:hover{
-      transform: scale(1.04);
+      transform: scale(1.01);
       box-shadow: rgba(0, 157, 255, 0.442) 0px 0px 8px 3px;
       border: 0.9;
     }
+  }
+  & .CommentModel__AddBtn__section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 20px;
+    min-height: 65px;
   }
 }

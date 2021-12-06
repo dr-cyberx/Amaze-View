@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styles from "@styles/CommentModel.module.scss";
 import { AmazeContext } from "utils";
+import Button from "@components/reusable/Button";
 interface ICommentModel {
   commentData: any;
 }
@@ -50,6 +51,14 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
               </div>
             </div>
           ))}
+        </div>
+        <div className={styles.CommentModel__AddBtn__section}>
+          <Button
+            type="button"
+            label="Add Your Comment"
+            size="medium"
+            style={{ fontWeight: 900, width: "100%" }}
+          />
         </div>
       </div>
     </AmazeModel>
