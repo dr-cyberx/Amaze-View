@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { useMutation } from "@apollo/client";
 import AmazeModel from "@components/reusable/Model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import styles from "@styles/CommentModel.module.scss";
 import { AmazeContext } from "utils";
+import ADD_COMMENTS from "@graphql-documents/ADD_COMMENTS.graphql";
+import styles from "@styles/CommentModel.module.scss";
 import Button from "@components/reusable/Button";
+
 interface ICommentModel {
   commentData: any;
   refetchPost?: any;
@@ -15,11 +18,22 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
   commentData,
   refetchPost,
 }) => {
+  const [commentContent, setCommentContent] = useState();
+  const [addComment, { data, loading, error }] = useMutation(ADD_COMMENTS);
   const { CloseCommentModel } = useContext(AmazeContext);
 
   React.useEffect(() => {
     console.log("inside the model =>> ", commentData);
   }, [commentData]);
+
+  const handleCommentModelClick = async () => {
+    await addComment({
+      variables:{
+        // post
+      }
+    })
+    // () => refetchPost && refetchPost()
+  };
 
   return (
     <AmazeModel>
@@ -36,6 +50,7 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
         <div className={styles.CommentModel__comments}>
           <textarea
             style={{ padding: "10px" }}
+            onChange={(e: any) => setCommentContent(e.target.value)}
             rows={5}
             cols={55}
             placeholder="Comment here..."
@@ -43,10 +58,7 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
         </div>
         <div className={styles.CommentModel__otherComments}>
           {commentData?.map((d: any) => (
-            <div
-              key={d.commentContent}
-              className={styles.CommentModel__singleComment}
-            >
+            <div key={d.id} className={styles.CommentModel__singleComment}>
               <div>
                 <h4>{d.user.userName}</h4>
                 <p>“ {d.commentContent} ”</p>
@@ -60,7 +72,7 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
             label="Add Your Comment"
             size="medium"
             style={{ fontWeight: 900, width: "100%" }}
-            handleClick={() => refetchPost && refetchPost()}
+            handleClick={handleCommentModelClick}
           />
         </div>
       </div>
