@@ -28,23 +28,25 @@
       border-radius: 6px;
     }
     & textarea:focus {
-      border: 2px solid var(--color-primary);
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      // border: 2px solid var(--color-primary);
+      box-shadow: rgba(0, 157, 255, 0.442) 0px 0px 8px 3px;
       
     }
   }
   & .CommentModel__otherComments{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: flex-start;
     padding: 0px 35px;
+    height: 374px;
+    overflow-y: scroll;
+
     & .CommentModel__singleComment{
       cursor: pointer;
       height: auto;
-      padding: 5px;
+      padding: 10px;
       width: 100%;
-      margin-top: 6px;
+      margin-top: 10px;
       border-radius: 6px;
      transition: all 0.1s ease-in-out;
       box-shadow: rgba(0, 0, 0, 0.081) 0px 0px 0px 1px;
@@ -57,7 +59,16 @@
 
     }
     & .CommentModel__singleComment:hover{
+      transform: scale(1.01);
+      box-shadow: rgba(0, 157, 255, 0.442) 0px 0px 8px 3px;
       border: 0.9;
     }
+  }
+  & .CommentModel__AddBtn__section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 20px;
+    min-height: 65px;
   }
 }
