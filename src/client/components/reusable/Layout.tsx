@@ -32,7 +32,10 @@ const Layout: React.FC<ILayout> = ({
       </StandardView>
       {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
       {state.openCommentModel.shouldbe && (
-        <CommentModel commentData={state.openCommentModel.CommentData} />
+        <CommentModel
+          commentData={state.openCommentModel.CommentData}
+          refetchPost={refetchPosts}
+        />
       )}
     </>
   );

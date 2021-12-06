@@ -6,6 +6,7 @@ interface IButton {
   type: "submit" | "button";
   style?: any;
   size?: "small" | "medium" | "large";
+  handleClick?: any;
 }
 
 const handleBtnSize = (
@@ -31,12 +32,14 @@ const Button: React.FunctionComponent<IButton> = ({
   type,
   style,
   size,
+  handleClick,
 }): JSX.Element => {
   return (
     <button
       className={styles.btn}
       type={type}
       style={{ ...handleBtnSize(size), ...style }}
+      onClick={handleClick}
     >
       {label}
     </button>

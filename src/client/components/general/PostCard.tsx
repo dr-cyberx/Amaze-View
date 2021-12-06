@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useMutation } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +27,10 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
 
   const [addLikes] = useMutation(ADD_LIKES);
   const [addComments] = useMutation(ADD_COMMENTS);
+
+  useEffect(() => {
+    setPostData(postData)
+  }, [postData])
 
   const handleLikes = async () => {
     setLikeLength((previousVal: number) => previousVal + 1);
