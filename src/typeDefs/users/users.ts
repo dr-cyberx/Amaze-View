@@ -1,4 +1,4 @@
-export const getAllUser = `getUser(query: String): [User]!`;
+export const getAllUser = 'getUser(query: String): [User]!';
 
 export const user = `type User {
     id: ID!
@@ -45,6 +45,6 @@ export const RegisterUser = `
   ): registerUserResponse!
 `;
 
-export const updateUser = `updateUser(id: ID!, data: EditUser): updateUserResponse!`;
+export const updateUser = 'updateUser(id: ID!, data: EditUser): updateUserResponse!';
 
-export const Login = `Login(email: String, userName: String, password: String): loginOutput! `;
+export const Login = 'Login(email: String, userName: String, password: String): loginOutput! ';

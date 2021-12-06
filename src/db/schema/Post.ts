@@ -1,4 +1,4 @@
-import { Model, model, Schema } from "mongoose";
+import { Model, model, Schema } from 'mongoose';
 
 const PostSchema: Schema<any, Model<any, any, any, any>, {}> = new Schema(
   {
@@ -13,28 +13,28 @@ const PostSchema: Schema<any, Model<any, any, any, any>, {}> = new Schema(
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: "user",
+        ref: 'user',
       },
     ],
     comments: [
       {
         userId: {
           type: Schema.Types.ObjectId,
-          ref: "user",
+          ref: 'user',
         },
         commentContent: {
           type: String,
-          requried: true
+          requried: true,
         },
       },
     ],
     publisher: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-const Post = model("Post", PostSchema);
+const Post = model('Post', PostSchema);
 
 export default Post;

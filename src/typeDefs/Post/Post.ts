@@ -1,4 +1,4 @@
-export const getAllPost = `getAllPost(query:String):[getPostResponse]!`;
+export const getAllPost = 'getAllPost(query:String):[getPostResponse]!';
 
 export const Post = `
    type PostPublisher{

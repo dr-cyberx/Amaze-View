@@ -38,7 +38,19 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
             placeholder="Comment here..."
           />
         </div>
-        <div className={styles.CommentModel__otherPosts}></div>
+        <div className={styles.CommentModel__otherComments}>
+          {commentData?.map((d: any) => (
+            <div
+              key={d.commentContent}
+              className={styles.CommentModel__singleComment}
+            >
+              <div>
+                <h4>{d.user.userName}</h4>
+                <p>“ {d.commentContent} ”</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </AmazeModel>
   );

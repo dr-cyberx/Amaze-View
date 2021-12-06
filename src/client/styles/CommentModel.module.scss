@@ -33,4 +33,31 @@
       
     }
   }
+  & .CommentModel__otherComments{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 0px 35px;
+    & .CommentModel__singleComment{
+      cursor: pointer;
+      height: auto;
+      padding: 5px;
+      width: 100%;
+      margin-top: 6px;
+      border-radius: 6px;
+     transition: all 0.1s ease-in-out;
+      box-shadow: rgba(0, 0, 0, 0.081) 0px 0px 0px 1px;
+      & h4{
+        margin: 0px;
+      }
+      & p{
+        margin: 5px 0px;
+      }
+
+    }
+    & .CommentModel__singleComment:hover{
+      border: 0.9;
+    }
+  }
 }
