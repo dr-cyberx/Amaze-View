@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import { genSalt, hash, compare } from "bcrypt";
+import { model, Schema } from 'mongoose';
+import { genSalt, hash, compare } from 'bcrypt';
 
 const UserSchema = new Schema(
   {
@@ -19,7 +19,7 @@ const UserSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["Male", "Female", "Others"],
+      enum: ['Male', 'Female', 'Others'],
     },
     age: {
       type: Number,
@@ -37,24 +37,24 @@ const UserSchema = new Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre('save', function (next) {
   // console.log("This => ", this);
   const user = this;
-  if (!user.isModified("password")) {
+  if (!user.isModified('password')) {
     return next();
   }
-  genSalt(10, function (err: any, salt: any) {
+  genSalt(10, (err: any, salt: any) => {
     if (err) {
       return next(err);
     }
-    hash(user.password, salt, function (err: any, hash: any) {
-      if (err) {
-        return next(err);
+    hash(user.password, salt, (err1: any, hash1: any) => {
+      if (err1) {
+        return next(err1);
       }
-      user.password = hash;
+      user.password = hash1;
       next();
     });
   });
@@ -77,6 +77,6 @@ UserSchema.methods.comparePassword = function (CandidatePassword) {
   });
 };
 
-const User = model("user", UserSchema);
+const User = model('user', UserSchema);
 
 export default User;

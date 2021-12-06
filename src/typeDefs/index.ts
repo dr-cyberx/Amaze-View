@@ -1,5 +1,5 @@
-import { gql } from "apollo-server-express";
-import { DocumentNode } from "graphql";
+import { gql } from 'apollo-server-express';
+import { DocumentNode } from 'graphql';
 import {
   user,
   EditUser,
@@ -8,8 +8,8 @@ import {
   Login,
   getAllUser,
   registerUserResponse,
-} from "./users/users";
-import { CreatePost, getAllPost, Post } from "./Post/Post";
+} from './users/users';
+import { CreatePost, getAllPost, Post } from './Post/Post';
 
 const typeDefs: DocumentNode = gql`
   type Query {
