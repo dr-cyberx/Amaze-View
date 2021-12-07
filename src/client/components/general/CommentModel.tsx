@@ -11,15 +11,18 @@ import { commentModel } from "state/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { RootState } from "state/reducers";
+import AmazeLoader from "@components/reusable/Loader";
 
 interface ICommentModel {
   commentData: any;
   refetchPost?: any;
+  postId?: any;
 }
 
 const CommentModel: React.FunctionComponent<ICommentModel> = ({
   children,
   commentData,
+  postId,
 }) => {
   const [commentContent, setCommentContent] = useState();
   const [addComment] = useMutation(ADD_COMMENTS);
@@ -30,18 +33,15 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
     toggleCommentModelDispatcher
   );
 
-  const { refetchAll } = useSelector(
+  const { refetchAll, loading } = useSelector(
     (state: RootState) => state.get_all_post_data
   );
-
-  React.useEffect(() => {
-    console.log("inside the model =>> ", commentData);
-  }, [commentData]);
 
   const handleCommentModelClick = async () => {
     await addComment({
       variables: {
-        // post
+        commentContent,
+        postId,
       },
     }).then(() => refetchAll());
     // () => refetchPost && refetchPost()
@@ -49,6 +49,7 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
 
   return (
     <AmazeModel>
+      <AmazeLoader data={loading} />
       <div className={styles.CommentModel__parent}>
         <div className={styles.CommentModel__header}>
           <h2 style={{ marginTop: "15px", marginBottom: "15px" }}>Comments</h2>

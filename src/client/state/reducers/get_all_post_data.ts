@@ -14,7 +14,7 @@ export const get_all_post_data = (
         data: actions.payload.data,
         error: actions.payload.error,
         loading: actions.payload.loading,
-        refetchAll: actions.payload.refetch,
+        refetchAll: actions.payload.refetchAll,
       };
 
     default:

@@ -7,9 +7,7 @@ import {
   faComment,
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
-import { AmazeContext } from "utils";
 import ADD_LIKES from "@graphql-documents/ADD_LIKES.graphql";
-import ADD_COMMENTS from "@graphql-documents/ADD_COMMENTS.graphql";
 import style from "@styles/PostCard.module.scss";
 import { commentModel } from "state/actions";
 import { useDispatch } from "react-redux";
@@ -24,7 +22,6 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   postData,
   location,
 }): JSX.Element => {
-  const { openCommentModel, CloseCommentModel } = useContext(AmazeContext);
   const CommentModelDispatcher = useDispatch();
   const commentModelActions = bindActionCreators(
     commentModel,
@@ -34,9 +31,6 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   const [likeLength, setLikeLength] = useState(postData.likes.length);
 
   const [addLikes] = useMutation(ADD_LIKES);
-  const [addComments] = useMutation(ADD_COMMENTS);
-
-  console.log("-----> ", commentModelActions);
 
   useEffect(() => {
     setPostData(postData);
@@ -52,8 +46,9 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   };
 
   const handleComment = async () => {
-    commentModelActions.openCommentModel(postData.comments)
-    openCommentModel(postData.comments);
+    commentModelActions.openCommentModel(postData);
+    localStorage.setItem("postId", postData.id);
+    // openCommentModel(postData.comments);
   };
 
   return (
