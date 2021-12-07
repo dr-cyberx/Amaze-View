@@ -36,6 +36,7 @@ export const store: Store<
       data: null,
       error: null,
       loading: null,
+      networkStatus: null,
       refetchAll: null,
     },
   },

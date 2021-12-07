@@ -1,8 +1,9 @@
 export const get_all_post_data = (
-  state= {
+  state = {
     data: null,
     error: null,
     loading: null,
+    networkStatus: null,
     refetchAll: null,
   },
   actions: any
@@ -14,6 +15,7 @@ export const get_all_post_data = (
         data: actions.payload.data,
         error: actions.payload.error,
         loading: actions.payload.loading,
+        networkStatus: actions.payload.networkStatus,
         refetchAll: actions.payload.refetchAll,
       };
 

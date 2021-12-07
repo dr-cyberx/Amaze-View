@@ -7,7 +7,9 @@ interface IAmazeLoader {
 
 const AmazeLoader: React.FC<IAmazeLoader> = ({ data }): JSX.Element => {
   return (
-    <div style={{ position: "absolute", top: "45%", left: "45%" }}>
+    <div
+      style={{ position: "absolute", top: "45%", left: "45%", zIndex: 9999 }}
+    >
       <Loader
         type="ThreeDots"
         color="#00BFFF"
@@ -22,7 +24,7 @@ const AmazeLoader: React.FC<IAmazeLoader> = ({ data }): JSX.Element => {
 };
 
 AmazeLoader.defaultProps = {
-  data: true,
+  data: false,
 };
 
 export default AmazeLoader;
