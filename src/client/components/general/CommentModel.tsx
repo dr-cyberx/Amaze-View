@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import AmazeModel from "@components/reusable/Model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,10 @@ import { AmazeContext } from "utils";
 import ADD_COMMENTS from "@graphql-documents/ADD_COMMENTS.graphql";
 import styles from "@styles/CommentModel.module.scss";
 import Button from "@components/reusable/Button";
+import { commentModel } from "state/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { RootState } from "state/reducers";
 
 interface ICommentModel {
   commentData: any;
@@ -16,11 +20,19 @@ interface ICommentModel {
 const CommentModel: React.FunctionComponent<ICommentModel> = ({
   children,
   commentData,
-  refetchPost,
 }) => {
   const [commentContent, setCommentContent] = useState();
-  const [addComment, { data, loading, error }] = useMutation(ADD_COMMENTS);
-  const { CloseCommentModel } = useContext(AmazeContext);
+  const [addComment] = useMutation(ADD_COMMENTS);
+
+  const toggleCommentModelDispatcher = useDispatch();
+  const commentModelActions = bindActionCreators(
+    commentModel,
+    toggleCommentModelDispatcher
+  );
+
+  const { refetchAll } = useSelector(
+    (state: RootState) => state.get_all_post_data
+  );
 
   React.useEffect(() => {
     console.log("inside the model =>> ", commentData);
@@ -28,10 +40,10 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
 
   const handleCommentModelClick = async () => {
     await addComment({
-      variables:{
+      variables: {
         // post
-      }
-    })
+      },
+    }).then(() => refetchAll());
     // () => refetchPost && refetchPost()
   };
 
@@ -43,7 +55,7 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
           <FontAwesomeIcon
             size="2x"
             icon={faTimes}
-            onClick={() => CloseCommentModel()}
+            onClick={commentModelActions.CloseCommentModel}
             style={{ cursor: "pointer" }}
           />
         </div>
