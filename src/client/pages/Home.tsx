@@ -28,7 +28,7 @@ const Home: React.FunctionComponent = (): JSX.Element => {
       loading,
       refetch,
     });
-  }, [data, loading, error, refetch]);
+  }, [data, loading, error]);
 
   useEffect(() => {
     const token = localStorage.getItem("auth-Token");
