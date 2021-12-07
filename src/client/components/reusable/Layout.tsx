@@ -4,6 +4,8 @@ import Navbar from "@components/general/Navbar";
 import PostModel from "@components/general/PostModel";
 import StandardView from "@components/general/StandardWidth";
 import React, { useContext } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "state/reducers";
 import { AmazeContext } from "utils";
 import MetaData from "./MetaData";
 
@@ -19,6 +21,10 @@ const Layout: React.FC<ILayout> = ({
   refetchPosts,
 }): JSX.Element => {
   const { state } = useContext(AmazeContext);
+  const toggleCreatePostModel = useSelector(
+    (state: RootState) => state.create_post_model_reducer.shouldOpen
+  );
+  // toggleCreatePostModel();
   return (
     <>
       <MetaData title={title} />
@@ -30,7 +36,7 @@ const Layout: React.FC<ILayout> = ({
           <AddPost />
         </div>
       </StandardView>
-      {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
+      {toggleCreatePostModel && <PostModel refetchPost={refetchPosts} />}
       {state.openCommentModel.shouldbe && (
         <CommentModel
           commentData={state.openCommentModel.CommentData}
