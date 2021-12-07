@@ -7,14 +7,13 @@ export const Post_Query = {
 	getAllPost: async (
 		_parent: any,
 		args: any,
-		context: any,
+		context: any
 	): Promise<
     | {
         id: string;
         postContent: string;
         location: string;
-        publisher: (
-) => Promise<any>;
+        publisher: () => Promise<any>;
       }[]
     | undefined
   > => {
@@ -22,7 +21,7 @@ export const Post_Query = {
 			if (context.token) {
 				const resToken: string | JwtPayload = verify(
 					context.token,
-					`${process.env.TOKEN_STRING}`,
+					`${process.env.TOKEN_STRING}`
 				);
 				const isValidUser = await User.findById({
 					_id: (<any>resToken).userId,
@@ -43,13 +42,16 @@ export const Post_Query = {
               		id: item._id,
               		postContent: item.postContent,
               		likes: item.likes,
-              		comments: async () => await item.comments.map((d: any) => ({
-              			commentContent: d.commentContent,
-              			user: async () => await User.findById({ _id: d.userId }),
-              		})),
+              		comments: async () =>
+              			await item.comments.map((d: any) => ({
+              				commentContent: d.commentContent,
+              				user: async () => await User.findById({ _id: d.userId }),
+              				id: d._id,
+              			})),
               		location: item.location,
-              		publisher: async () => await User.findById({ _id: item.publisher }),
-              	})),
+              		publisher: async () =>
+              			await User.findById({ _id: item.publisher }),
+              	}))
               );
 							return data;
 						}
@@ -57,7 +59,7 @@ export const Post_Query = {
 				} catch (error) {
 					throw new ApolloError(
 						'failed to get Posts',
-						'findAll Post query failed',
+						'findAll Post query failed'
 					);
 				}
 			} else {

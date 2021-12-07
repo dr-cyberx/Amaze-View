@@ -1,4 +1,4 @@
-export const getAllPost = 'getAllPost(query:String):[getPostResponse]!';
+export const getAllPost = "getAllPost(query:String):[getPostResponse]!";
 
 export const Post = `
    type PostPublisher{
@@ -23,6 +23,7 @@ export const Post = `
    type commentResponse{
       user:PostPublisher,
       commentContent: String
+      id: String
    }
    type getPostResponse{
       id: ID!
