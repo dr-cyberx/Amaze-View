@@ -11,6 +11,9 @@ import { AmazeContext } from "utils";
 import ADD_LIKES from "@graphql-documents/ADD_LIKES.graphql";
 import ADD_COMMENTS from "@graphql-documents/ADD_COMMENTS.graphql";
 import style from "@styles/PostCard.module.scss";
+import { commentModel } from "state/actions";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
 
 interface IPostCard {
   postData: any;
@@ -22,15 +25,22 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   location,
 }): JSX.Element => {
   const { openCommentModel, CloseCommentModel } = useContext(AmazeContext);
+  const CommentModelDispatcher = useDispatch();
+  const commentModelActions = bindActionCreators(
+    commentModel,
+    CommentModelDispatcher
+  );
   const [postdata, setPostData] = useState(postData);
   const [likeLength, setLikeLength] = useState(postData.likes.length);
 
   const [addLikes] = useMutation(ADD_LIKES);
   const [addComments] = useMutation(ADD_COMMENTS);
 
+  console.log("-----> ", commentModelActions);
+
   useEffect(() => {
-    setPostData(postData)
-  }, [postData])
+    setPostData(postData);
+  }, [postData]);
 
   const handleLikes = async () => {
     setLikeLength((previousVal: number) => previousVal + 1);
@@ -42,6 +52,7 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   };
 
   const handleComment = async () => {
+    commentModelActions.openCommentModel(postData.comments)
     openCommentModel(postData.comments);
   };
 
@@ -84,3 +95,6 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
 };
 
 export default PostCard;
+function dispatch(dispatch: any) {
+  throw new Error("Function not implemented.");
+}

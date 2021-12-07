@@ -24,7 +24,14 @@ const Layout: React.FC<ILayout> = ({
   const toggleCreatePostModel = useSelector(
     (state: RootState) => state.create_post_model_reducer.shouldOpen
   );
+  const toggleCommentModel = useSelector(
+    (state: RootState) => state.comment_model_reducer
+  );
   // toggleCreatePostModel();
+  const Refetch_All_Post = useSelector(
+    (state: RootState) => state.get_all_post_data.refetchAll
+  );
+
   return (
     <>
       <MetaData title={title} />
@@ -36,10 +43,10 @@ const Layout: React.FC<ILayout> = ({
           <AddPost />
         </div>
       </StandardView>
-      {toggleCreatePostModel && <PostModel refetchPost={refetchPosts} />}
-      {state.openCommentModel.shouldbe && (
+      {toggleCreatePostModel && <PostModel refetchPost={Refetch_All_Post} />}
+      {toggleCommentModel.args && (
         <CommentModel
-          commentData={state.openCommentModel.CommentData}
+          commentData={toggleCommentModel.args}
           refetchPost={refetchPosts}
         />
       )}

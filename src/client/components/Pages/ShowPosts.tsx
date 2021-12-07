@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { useQuery } from "@apollo/client";
 import AmazeLoader from "@components/reusable/Loader";
-import GET_ALL_POST from "@graphql-documents/GET_ALL_POST.graphql";
 import PostCard from "@components/general/PostCard";
 import { AmazeContext } from "utils";
+import { useSelector } from "react-redux";
+import { RootState } from "state/reducers";
 
 interface IShowPosts {
   data: any;
@@ -11,14 +11,13 @@ interface IShowPosts {
   refetch: any;
 }
 
-const ShowPosts: React.FC<IShowPosts> = ({
-  data,
-  loading,
-  refetch,
-}): JSX.Element => {
+const ShowPosts: React.FC<IShowPosts> = ({ refetch }): JSX.Element => {
   const { state } = useContext(AmazeContext);
   const { openPostModel } = state;
   const [PostData, setPostData] = useState<any>();
+  const { data, error, loading, refetchAll } = useSelector(
+    (state: RootState) => state.get_all_post_data
+  );
 
   React.useEffect(() => {
     setPostData(data);
