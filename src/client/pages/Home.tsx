@@ -11,7 +11,7 @@ import { get_all_post_data } from "state/actions";
 
 const Home: React.FunctionComponent = (): JSX.Element => {
   // const { state } = useContext(AmazeContext);
-  const { data, loading, error, refetch } = useQuery(GET_ALL_POST, {
+  const { data, loading, error, refetch, networkStatus } = useQuery(GET_ALL_POST, {
     fetchPolicy: "cache-first", // Used for first execution
   });
 
@@ -26,6 +26,7 @@ const Home: React.FunctionComponent = (): JSX.Element => {
       data,
       error,
       loading,
+      networkStatus,
       refetch,
     });
   }, [data, loading, error]);

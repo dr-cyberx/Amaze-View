@@ -11,6 +11,7 @@ import { commentModel } from "state/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { RootState } from "state/reducers";
+import { NetworkStatus } from "@apollo/client";
 import AmazeLoader from "@components/reusable/Loader";
 
 interface ICommentModel {
@@ -22,10 +23,11 @@ interface ICommentModel {
 const CommentModel: React.FunctionComponent<ICommentModel> = ({
   children,
   commentData,
+  refetchPost,
   postId,
 }) => {
   const [commentContent, setCommentContent] = useState();
-  const [addComment] = useMutation(ADD_COMMENTS);
+  const [addComment, { loading }] = useMutation(ADD_COMMENTS);
 
   const toggleCommentModelDispatcher = useDispatch();
   const commentModelActions = bindActionCreators(
@@ -33,9 +35,11 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
     toggleCommentModelDispatcher
   );
 
-  const { refetchAll, loading } = useSelector(
+  const { data, networkStatus } = useSelector(
     (state: RootState) => state.get_all_post_data
   );
+
+  // console.log("--->>>>>> loading ", refetchAll);
 
   const handleCommentModelClick = async () => {
     await addComment({
@@ -43,13 +47,13 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
         commentContent,
         postId,
       },
-    }).then(() => refetchAll());
-    // () => refetchPost && refetchPost()
+      notifyOnNetworkStatusChange: true,
+    }).then(() => refetchPost && refetchPost());
   };
 
   return (
     <AmazeModel>
-      <AmazeLoader data={loading} />
+      {loading && <AmazeLoader data={loading} />}
       <div className={styles.CommentModel__parent}>
         <div className={styles.CommentModel__header}>
           <h2 style={{ marginTop: "15px", marginBottom: "15px" }}>Comments</h2>

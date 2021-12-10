@@ -26,9 +26,7 @@ const ShowPosts: React.FC<IShowPosts> = ({ refetch }): JSX.Element => {
   React.useEffect(() => {
     refetch();
   }, [openPostModel]);
-
-  console.log("________------> data ", data);
-
+  
   return (
     <div>
       <AmazeLoader data={loading} />
