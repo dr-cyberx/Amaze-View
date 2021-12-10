@@ -12,6 +12,7 @@ import style from "@styles/PostCard.module.scss";
 import { commentModel } from "state/actions";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+import { AmazeContext } from "utils";
 
 interface IPostCard {
   postData: any;
@@ -22,11 +23,7 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   postData,
   location,
 }): JSX.Element => {
-  const CommentModelDispatcher = useDispatch();
-  const commentModelActions = bindActionCreators(
-    commentModel,
-    CommentModelDispatcher
-  );
+  const { openCommentModel } = useContext(AmazeContext);
   const [postdata, setPostData] = useState(postData);
   const [likeLength, setLikeLength] = useState(postData.likes.length);
 
@@ -45,11 +42,7 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
     });
   };
 
-  const handleComment = async () => {
-    commentModelActions.openCommentModel(postData);
-    localStorage.setItem("postId", postData.id);
-    // openCommentModel(postData.comments);
-  };
+  const handleComment = async () => await openCommentModel(postData.id);
 
   return (
     <div className={style.Post_Card}>
@@ -90,6 +83,8 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
 };
 
 export default PostCard;
-function dispatch(dispatch: any) {
-  throw new Error("Function not implemented.");
-}
+// const CommentModelDispatcher = useDispatch();
+// const commentModelActions = bindActionCreators(
+//   commentModel,
+//   CommentModelDispatcher
+// );

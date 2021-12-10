@@ -1,11 +1,3 @@
-@keyframes slideInFromTop {
-  0% {
-    transform: translatey(-100%);
-  }
-  100% {
-    transform: translatey(0);
-  }
-}
 
 .Post_Card {
   width: 750px;
@@ -14,13 +6,10 @@
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     border-radius: 6px;
     transform: scale(0.97);
-    // border: 2px solid red;
     margin-bottom: 10px;
-    animation: 0.5s ease-out 0s 1 slideInFromTop;
   & .Post_card_head {
     display: flex;
     padding: 10px;
-    // border: 2px solid red;
     & .userIcon {
       width: 50px;
       margin-right: 15px;
@@ -29,7 +18,6 @@
     }
   }
   & .Post_card_body {
-    // border: 2px solid red;
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;

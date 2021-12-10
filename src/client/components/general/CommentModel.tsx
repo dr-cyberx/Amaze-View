@@ -1,84 +1,93 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import React, { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery, NetworkStatus } from "@apollo/client";
 import AmazeModel from "@components/reusable/Model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { AmazeContext } from "utils";
 import ADD_COMMENTS from "@graphql-documents/ADD_COMMENTS.graphql";
+import GET_COMMENT_BY_POST_ID from "@graphql-documents/GET_COMMENT_BY_POST_ID.graphql";
 import styles from "@styles/CommentModel.module.scss";
 import Button from "@components/reusable/Button";
-import { commentModel } from "state/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "redux";
-import { RootState } from "state/reducers";
-import { NetworkStatus } from "@apollo/client";
 import AmazeLoader from "@components/reusable/Loader";
 
 interface ICommentModel {
-  commentData: any;
-  refetchPost?: any;
   postId?: any;
+  refetchPosts?: any;
 }
 
 const CommentModel: React.FunctionComponent<ICommentModel> = ({
   children,
-  commentData,
-  refetchPost,
-  postId,
-}) => {
-  const [commentContent, setCommentContent] = useState();
-  const [addComment, { loading }] = useMutation(ADD_COMMENTS);
-
-  const toggleCommentModelDispatcher = useDispatch();
-  const commentModelActions = bindActionCreators(
-    commentModel,
-    toggleCommentModelDispatcher
+  refetchPosts,
+}): JSX.Element => {
+  const { CloseCommentModel, state } = useContext(AmazeContext);
+  const { openCommentModel } = state;
+  const [commentContent, setCommentContent] = useState([]);
+  const [commentText, setCommentText] = useState<string>("");
+  const { data, loading, error, refetch, networkStatus } = useQuery(
+    GET_COMMENT_BY_POST_ID,
+    {
+      variables: {
+        postId: openCommentModel.postId,
+      },
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "cache-first",
+    }
   );
+  const [addComment] = useMutation(ADD_COMMENTS);
 
-  const { data, networkStatus } = useSelector(
-    (state: RootState) => state.get_all_post_data
-  );
-
-  // console.log("--->>>>>> loading ", refetchAll);
+  useEffect(() => {
+    setCommentContent(data?.getCommentsByPostId?.comments);
+  }, [data]);
 
   const handleCommentModelClick = async () => {
     await addComment({
       variables: {
-        commentContent,
-        postId,
+        commentContent: commentText,
+        postId: openCommentModel.postId,
       },
-      notifyOnNetworkStatusChange: true,
-    }).then(() => refetchPost && refetchPost());
+    }).then(() => {
+      refetch();
+      refetchPosts();
+      setCommentText("");
+    });
   };
 
   return (
     <AmazeModel>
-      {loading && <AmazeLoader data={loading} />}
+      {(loading || networkStatus === NetworkStatus.refetch) && (
+        <AmazeLoader data={loading} />
+      )}
       <div className={styles.CommentModel__parent}>
         <div className={styles.CommentModel__header}>
           <h2 style={{ marginTop: "15px", marginBottom: "15px" }}>Comments</h2>
           <FontAwesomeIcon
             size="2x"
             icon={faTimes}
-            onClick={commentModelActions.CloseCommentModel}
+            onClick={CloseCommentModel}
             style={{ cursor: "pointer" }}
           />
         </div>
         <div className={styles.CommentModel__comments}>
           <textarea
             style={{ padding: "10px" }}
-            onChange={(e: any) => setCommentContent(e.target.value)}
+            onChange={(e: any) => setCommentText(e.target.value)}
             rows={5}
             cols={55}
+            value={commentText}
             placeholder="Comment here..."
           />
         </div>
         <div className={styles.CommentModel__otherComments}>
-          {commentData?.map((d: any) => (
-            <div key={d.id} className={styles.CommentModel__singleComment}>
+          {commentContent?.map((d: any) => (
+            <div
+              key={`${d.id} ${Math.random()}`}
+              className={styles.CommentModel__singleComment}
+            >
               <div>
                 <h4>{d.user.userName}</h4>
-                <p>“ {d.commentContent} ”</p>
+                <p style={{ wordBreak: "break-word" }}>
+                  “ {d.commentContent} ”
+                </p>
               </div>
             </div>
           ))}

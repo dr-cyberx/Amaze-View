@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 
 export const AmazeContext: React.Context<any> = createContext(null);
 
@@ -19,7 +19,7 @@ const reducer = (state: any, action: any) => {
         ...state,
         openCommentModel: {
           shouldbe: true,
-          CommentData: action.payload,
+          postId: action.payload.postId,
         },
       };
     case "CLOSE_COMMENT_MODEL":
@@ -27,7 +27,7 @@ const reducer = (state: any, action: any) => {
         ...state,
         openCommentModel: {
           shouldbe: false,
-          CommentData: null,
+          postId: null,
         },
       };
     default:
@@ -38,18 +38,23 @@ const reducer = (state: any, action: any) => {
 export const AmazeProvider = ({ children }: { children: JSX.Element }) => {
   const [state, dispatch] = useReducer(reducer, {
     openPostModel: false,
-    openCommentModel: { shouldbe: false, CommentData: null },
+    openCommentModel: { shouldbe: false, postId: null },
   });
+
 
   const OpenPost = () => dispatch({ type: "OPEN_MODEL" });
 
   const ClosePost = () => dispatch({ type: "CLOSE_MODEL" });
 
-  const openCommentModel = (args: any) => {
-    dispatch({ type: "OPEN_COMMENT_MODEL", payload: args });
+  const openCommentModel = ( postId: any): void => {
+    dispatch({
+      type: "OPEN_COMMENT_MODEL",
+      payload: { postId },
+    });
   };
 
-  const CloseCommentModel = () => dispatch({ type: "CLOSE_COMMENT_MODEL" });
+  const CloseCommentModel = (): void =>
+    dispatch({ type: "CLOSE_COMMENT_MODEL" });
 
   return (
     <AmazeContext.Provider

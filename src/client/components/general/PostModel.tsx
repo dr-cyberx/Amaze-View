@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { useMutation } from "@apollo/client";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -11,20 +11,19 @@ import AmazeLoader from "@components/reusable/Loader";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { createPostModelActions } from "state/actions";
+import { AmazeContext } from "utils";
 
 interface ipostModel {
   refetchPost?: any;
 }
 
 const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
+  const { ClosePost } = useContext(AmazeContext);
   const [addPost, { loading }] = useMutation(CREATE_POST);
   const [ModelData, setModeldata] = useState({
     location: "",
     postContent: "",
   });
-
-  const dispatch = useDispatch();
-  const actions = bindActionCreators(createPostModelActions, dispatch);
 
   const handleSubmit = async (_event: any): Promise<void> => {
     _event.preventDefault();
@@ -33,8 +32,6 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
         postContent: ModelData.postContent,
         location: ModelData.location,
       },
-    }).then(() => {
-      refetchPost && refetchPost();
     });
   };
 
@@ -61,7 +58,7 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
           size="2x"
           icon={faTimes}
           style={{ cursor: "pointer" }}
-          onClick={actions.closeCreatePostModel}
+          onClick={ClosePost}
         />
       </div>
       <form className={styles.post_model_form} onSubmit={handleSubmit}>
@@ -99,3 +96,6 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
 };
 
 export default PostModel;
+
+// const dispatch = useDispatch();
+// const actions = bindActionCreators(createPostModelActions, dispatch);
