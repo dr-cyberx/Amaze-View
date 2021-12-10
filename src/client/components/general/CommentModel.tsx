@@ -23,10 +23,11 @@ interface ICommentModel {
 const CommentModel: React.FunctionComponent<ICommentModel> = ({
   children,
   commentData,
+  refetchPost,
   postId,
 }) => {
   const [commentContent, setCommentContent] = useState();
-  const [addComment] = useMutation(ADD_COMMENTS);
+  const [addComment, { loading }] = useMutation(ADD_COMMENTS);
 
   const toggleCommentModelDispatcher = useDispatch();
   const commentModelActions = bindActionCreators(
@@ -34,11 +35,11 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
     toggleCommentModelDispatcher
   );
 
-  const { refetchAll, data, loading, networkStatus } = useSelector(
+  const { data, networkStatus } = useSelector(
     (state: RootState) => state.get_all_post_data
   );
 
-  console.log("--->>>>>> loading ", refetchAll);
+  // console.log("--->>>>>> loading ", refetchAll);
 
   const handleCommentModelClick = async () => {
     await addComment({
@@ -47,13 +48,12 @@ const CommentModel: React.FunctionComponent<ICommentModel> = ({
         postId,
       },
       notifyOnNetworkStatusChange: true,
-    }).then(() => refetchAll());
-    // () => refetchPost && refetchPost()
+    }).then(() => refetchPost && refetchPost());
   };
 
   return (
     <AmazeModel>
-      {networkStatus === NetworkStatus.refetch && <AmazeLoader data={data} />}
+      {loading && <AmazeLoader data={loading} />}
       <div className={styles.CommentModel__parent}>
         <div className={styles.CommentModel__header}>
           <h2 style={{ marginTop: "15px", marginBottom: "15px" }}>Comments</h2>

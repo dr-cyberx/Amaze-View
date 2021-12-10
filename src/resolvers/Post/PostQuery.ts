@@ -1,5 +1,6 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { ApolloError } from 'apollo-server-core';
-import { JwtPayload, verify } from 'jsonwebtoken';
+import { isValidUser } from '../../utils/isValidUser';
 import User from '../../db/schema/index';
 import Post from '../../db/schema/Post';
 
@@ -19,15 +20,9 @@ export const Post_Query = {
   > => {
 		try {
 			if (context.token) {
-				const resToken: string | JwtPayload = verify(
-					context.token,
-					`${process.env.TOKEN_STRING}`
-				);
-				const isValidUser = await User.findById({
-					_id: (<any>resToken).userId,
-				});
+				const isAuth: Promise<boolean> = isValidUser(context.token);
 				try {
-					if (isValidUser.email || isValidUser.userName) {
+					if (await isAuth) {
 						const res = await Post.find({}).sort([['updatedAt', -1]]);
 						if (res) {
 							const data: {
@@ -67,6 +62,87 @@ export const Post_Query = {
 			}
 		} catch (err) {
 			throw new ApolloError('Access denied 1', 'getAllpost failed');
+		}
+	},
+	getCommentsByPostId: async (
+		_parents: any,
+		args: any,
+		context: any
+	): Promise<
+    | {
+        status: number;
+        message: string;
+        comments: any;
+      }
+    | {
+        status: number;
+        message: ApolloError;
+        comments: null;
+      }
+  > => {
+		try {
+			if (context.token) {
+				const isAuth: Promise<boolean> = isValidUser(context.token);
+				if (await isAuth) {
+					const comments = await Post.findById({ _id: args.postId });
+
+					if (comments.postContent) {
+						const commentResp = await comments?.comments.map(
+							(item: {
+                userId: string;
+                commentContent: string;
+                _id: string;
+              }) => ({
+								user: async () => {
+									const data = await User.findById({ _id: item.userId });
+									const resUser = {
+										id: data._id,
+										firstName: data.firstName,
+										lastName: data.lastName,
+										userName: data.userName,
+										gender: data.gender,
+										age: data.age,
+										phoneNumber: data.phoneNumber,
+										email: data.email,
+									};
+									return resUser;
+								},
+								commentContent: item.commentContent,
+								commentId: item._id,
+							})
+						);
+						return {
+							status: 200,
+							message: 'fetched successfully',
+							comments: commentResp,
+						};
+					} else {
+						return {
+							status: 401,
+							message: new ApolloError('Post not found', 'invalid Post id'),
+							comments: null,
+						};
+					}
+				}
+				return {
+					status: 401,
+					message: new ApolloError('Access Denied', 'unauthorized req'),
+					comments: null,
+				};
+			} else {
+				return {
+					status: 401,
+					message: new ApolloError('Access Denied', 'unauthorized req'),
+					comments: null,
+				};
+			}
+		} catch (err) {
+			console.log(err);
+			return {
+				status: 401,
+				message: new ApolloError('unknown error', `${err}`),
+				comments: null,
+			};
 		}
 	},
 };

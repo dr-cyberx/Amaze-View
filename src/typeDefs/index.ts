@@ -9,13 +9,14 @@ import {
   getAllUser,
   registerUserResponse,
 } from './users/users';
-import { CreatePost, getAllPost, Post } from './Post/Post';
+import { CreatePost, getAllPost, Post,getCommentsByPostId } from './Post/Post';
 
 const typeDefs: DocumentNode = gql`
   type Query {
     hello: String!
     ${getAllUser}
     ${getAllPost}
+    ${getCommentsByPostId}
   }
 
   enum Gender {

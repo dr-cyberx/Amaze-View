@@ -1,6 +1,17 @@
-export const getAllPost = "getAllPost(query:String):[getPostResponse]!";
+export const getAllPost = 'getAllPost(query:String):[getPostResponse]!';
+export const getCommentsByPostId = 'getCommentsByPostId(postId: ID!): commentsRsp!';
 
 export const Post = `
+   type commentsRsp{
+      status: Int!
+      message: String!
+      comments: [comments]!
+   }
+   type comments{
+      user: PostPublisher!
+      commentContent: String!
+      commentId: ID!
+   }
    type PostPublisher{
       id: ID!
       firstName: String
