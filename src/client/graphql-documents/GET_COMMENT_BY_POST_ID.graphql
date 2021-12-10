@@ -1,0 +1,19 @@
+query GetCommentsByPostId($postId: ID!) {
+  getCommentsByPostId(postId: $postId) {
+    status
+    message
+    comments {
+      commentContent
+      commentId
+      user {
+        firstName
+        id
+        lastName
+        age
+        email
+        phoneNumber
+        userName
+      }
+    }
+  }
+}

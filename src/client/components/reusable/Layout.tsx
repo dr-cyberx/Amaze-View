@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AmazeContext } from "utils/index";
 import AddPost from "@components/general/AddPost";
 import CommentModel from "@components/general/CommentModel";
 import Navbar from "@components/general/Navbar";
@@ -14,15 +15,13 @@ interface ILayout {
   refetchPosts?: any;
 }
 
-const Layout: React.FC<ILayout> = ({ children, title }): JSX.Element => {
-  const toggleCreatePostModel = useSelector(
-    (state: RootState) => state.create_post_model_reducer.shouldOpen
-  );
-  const toggleCommentModel = useSelector(
-    (state: RootState) => state.comment_model_reducer
-  );
+const Layout: React.FC<ILayout> = ({
+  children,
+  title,
+  refetchPosts,
+}): JSX.Element => {
+  const { state } = useContext(AmazeContext);
   // toggleCreatePostModel();
-  const All_Post = useSelector((state: RootState) => state.get_all_post_data);
 
   return (
     <>
@@ -35,16 +34,20 @@ const Layout: React.FC<ILayout> = ({ children, title }): JSX.Element => {
           <AddPost />
         </div>
       </StandardView>
-      {toggleCreatePostModel && <PostModel refetchPost={All_Post.refetchAll} />}
-      {toggleCommentModel.shouldOpen && (
-        <CommentModel
-          commentData={toggleCommentModel?.args?.comments}
-          postId={toggleCommentModel?.args?.id}
-          refetchPost={All_Post.refetchAll}
-        />
+      {state.openPostModel && <PostModel />}
+      {state.openCommentModel.shouldbe && (
+        <CommentModel refetchPosts={refetchPosts} />
       )}
     </>
   );
 };
 
 export default Layout;
+
+// const toggleCreatePostModel = useSelector(
+//   (state: RootState) => state.create_post_model_reducer.shouldOpen
+// );
+// const toggleCommentModel = useSelector(
+//   (state: RootState) => state.comment_model_reducer
+// );
+// const All_Post = useSelector((state: RootState) => state.get_all_post_data);

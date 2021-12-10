@@ -11,22 +11,19 @@ interface IShowPosts {
   refetch: any;
 }
 
-const ShowPosts: React.FC<IShowPosts> = ({ refetch }): JSX.Element => {
+const ShowPosts: React.FC<IShowPosts> = ({
+  data,
+  refetch,
+  loading,
+}): JSX.Element => {
   const { state } = useContext(AmazeContext);
-  const { openPostModel } = state;
   const [PostData, setPostData] = useState<any>();
-  const { data, error, loading, refetchAll } = useSelector(
-    (state: RootState) => state.get_all_post_data
-  );
 
   React.useEffect(() => {
     setPostData(data);
+    console.log("-->> ", data);
   }, [data]);
 
-  React.useEffect(() => {
-    refetch();
-  }, [openPostModel]);
-  
   return (
     <div>
       <AmazeLoader data={loading} />

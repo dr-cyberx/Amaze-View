@@ -137,7 +137,6 @@ export const Post_Query = {
 				};
 			}
 		} catch (err) {
-			console.log(err);
 			return {
 				status: 401,
 				message: new ApolloError('unknown error', `${err}`),

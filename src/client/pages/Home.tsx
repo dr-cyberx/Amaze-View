@@ -10,26 +10,13 @@ import { bindActionCreators } from "redux";
 import { get_all_post_data } from "state/actions";
 
 const Home: React.FunctionComponent = (): JSX.Element => {
-  // const { state } = useContext(AmazeContext);
-  const { data, loading, error, refetch, networkStatus } = useQuery(GET_ALL_POST, {
-    fetchPolicy: "cache-first", // Used for first execution
-  });
-
-  const setAllPostData_Dispatcher = useDispatch();
-  const setAll_post_actions = bindActionCreators(
-    get_all_post_data,
-    setAllPostData_Dispatcher
+  const { state } = useContext(AmazeContext);
+  const { data, loading, error, refetch, networkStatus } = useQuery(
+    GET_ALL_POST,
+    {
+      fetchPolicy: "cache-first", // Used for first execution
+    }
   );
-
-  useEffect(() => {
-    setAll_post_actions.Add_all_post_data({
-      data,
-      error,
-      loading,
-      networkStatus,
-      refetch,
-    });
-  }, [data, loading, error]);
 
   useEffect(() => {
     const token = localStorage.getItem("auth-Token");
@@ -48,3 +35,9 @@ const Home: React.FunctionComponent = (): JSX.Element => {
 };
 
 export default Home;
+
+// const setAllPostData_Dispatcher = useDispatch();
+// const setAll_post_actions = bindActionCreators(
+//   get_all_post_data,
+//   setAllPostData_Dispatcher
+// );
