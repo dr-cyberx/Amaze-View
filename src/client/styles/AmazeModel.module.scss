@@ -49,8 +49,7 @@
         border-radius: 6px;
       }
       & input:focus {
-        border: 2px solid var(--color-primary);
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        box-shadow: rgba(0, 157, 255, 0.442) 0px 0px 8px 3px;
       }
       & textarea {
         outline: none;
@@ -62,9 +61,7 @@
         border-radius: 6px;
       }
       & textarea:focus {
-        border: 2px solid var(--color-primary);
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        
+        box-shadow: rgba(0, 157, 255, 0.442) 0px 0px 8px 3px;
       }
     }
   }
