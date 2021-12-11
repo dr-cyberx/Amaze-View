@@ -8,9 +8,6 @@ import Button from "@components/reusable/Button";
 import AmazeModel from "@components/reusable/Model";
 import styles from "@styles/AmazeModel.module.scss";
 import AmazeLoader from "@components/reusable/Loader";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { createPostModelActions } from "state/actions";
 import { AmazeContext } from "utils";
 
 interface ipostModel {
@@ -32,7 +29,10 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
         postContent: ModelData.postContent,
         location: ModelData.location,
       },
-    });
+    }).then(()=> { refetchPost(); setModeldata({
+      location: "",
+      postContent: "",
+    })})
   };
 
   return (
@@ -64,6 +64,7 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
       <form className={styles.post_model_form} onSubmit={handleSubmit}>
         <input
           placeholder="Add Location"
+          value={ModelData.location}
           onChange={(e) =>
             setModeldata((previousData) => ({
               ...previousData,
@@ -76,6 +77,7 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
           style={{ padding: "10px" }}
           rows={15}
           cols={50}
+          value={ModelData.postContent}
           placeholder="Enter Post here"
           onChange={(e) =>
             setModeldata((previousdata) => ({
@@ -95,7 +97,7 @@ const PostModel: React.FC<ipostModel> = ({ refetchPost }): JSX.Element => {
   );
 };
 
-export default PostModel;
+export default React.memo(PostModel);
 
 // const dispatch = useDispatch();
 // const actions = bindActionCreators(createPostModelActions, dispatch);

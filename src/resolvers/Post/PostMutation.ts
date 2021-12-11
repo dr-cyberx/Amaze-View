@@ -1,5 +1,6 @@
 import { JwtPayload, verify } from 'jsonwebtoken';
 import { ApolloError } from 'apollo-server-errors';
+import { isValidUser } from '../../utils/isValidUser';
 import Post from '../../db/schema/Post';
 import User from '../../db/schema/index';
 
@@ -7,7 +8,7 @@ export const PostMutation = {
 	CreatePost: async (
 		_parent: any,
 		args: any,
-		context: any,
+		context: any
 	): Promise<{
     data: unknown;
     error: boolean;
@@ -17,7 +18,7 @@ export const PostMutation = {
 			if (context.token) {
 				const resToken: string | JwtPayload = verify(
 					context.token,
-					`${process.env.TOKEN_STRING}`,
+					`${process.env.TOKEN_STRING}`
 				);
 
 				const id = (<any>resToken).userId;
@@ -30,13 +31,11 @@ export const PostMutation = {
 
 					await User.findByIdAndUpdate(
 						{ _id: id },
-						{ $push: { posts: newPost._id } },
+						{ $push: { posts: newPost._id } }
 					);
 					const user = await User.findById({ _id: id });
 
-					const {
-						location, likes, comments, postContent,
-					} = newPost;
+					const { location, likes, comments, postContent } = newPost;
 					return {
 						data: {
 							id: newPost._id,
@@ -71,6 +70,7 @@ export const PostMutation = {
 	DeletePost: async (
 		_parent: any,
 		args: any,
+		context: any,
 	): Promise<
     | {
         data: unknown;
@@ -79,26 +79,45 @@ export const PostMutation = {
       }
     | undefined
   > => {
-		const PostId = args?.PostId;
 		try {
-			const post = await Post.findById({ _id: PostId });
-			if (post) {
-				await Post.deleteOne({ _id: PostId });
-				const userId = post.publisher;
-				await User.findByIdAndUpdate(
-					{ _id: userId },
-					{ $pull: { posts: PostId } },
-				);
-				return {
-					data: {
-						id: post._id,
-						postContent: post.postContent,
-						publisher: async (): Promise<any> => await User.findById({ _id: userId }),
-					},
-					error: false,
-					status: 200,
-				};
+			if(context.token){
+				const {isValid} = await isValidUser(context.token);
+				if(isValid){
+					const PostId = args?.PostId;
+					const post = await Post.findById({ _id: PostId });
+					if (post) {
+						await Post.deleteOne({ _id: PostId });
+						const userId = post.publisher;
+						await User.findByIdAndUpdate(
+							{ _id: userId },
+							{ $pull: { posts: PostId } }
+						);
+						return {
+							data: {
+								id: post._id,
+								postContent: post.postContent,
+								publisher: async (): Promise<any> =>
+									await User.findById({ _id: userId }),
+							},
+							error: false,
+							status: 200,
+						};
+					}else{
+						return {
+							data: new ApolloError('Access Denied', 'unautharized attempt to delete'),
+							error: true,
+							status: 401,
+						};
+					}
+				}else{
+					return {
+						data: new ApolloError('Access Denied', 'unautharized attempt to delete'),
+						error: true,
+						status: 401,
+					};
+				}
 			}
+			
 		} catch (error) {
 			return {
 				data: error,
@@ -111,7 +130,7 @@ export const PostMutation = {
 	AddLike: async (
 		_parent: any,
 		args: any,
-		context: any,
+		context: any
 	): Promise<
     | {
         message: string;
@@ -126,17 +145,12 @@ export const PostMutation = {
 
 		try {
 			if (context.token) {
-				const resToken: string | JwtPayload = verify(
-					context.token,
-					`${process.env.TOKEN_STRING}`,
-				);
-				const isValidUser = await User.findById({
-					_id: (<any>resToken).userId,
-				});
-				if (isValidUser.email || isValidUser.userName) {
+				const { isValid, userId } = await isValidUser(context.token);
+				if (await isValid) {
+
 					await Post.findByIdAndUpdate(
 						{ _id: postId },
-						{ $push: { likes: (<any>resToken).userId } },
+						{ $push: { likes: userId } }
 					);
 
 					return {
@@ -164,7 +178,7 @@ export const PostMutation = {
 	AddComments: async (
 		_parent: any,
 		args: any,
-		context: any,
+		context: any
 	): Promise<
     | {
         message: string;
@@ -180,7 +194,7 @@ export const PostMutation = {
 			if (context.token) {
 				const resToken: string | JwtPayload = verify(
 					context.token,
-					`${process.env.TOKEN_STRING}`,
+					`${process.env.TOKEN_STRING}`
 				);
 				const isValidUser = await User.findById({
 					_id: (<any>resToken).userId,
@@ -188,7 +202,11 @@ export const PostMutation = {
 				if (isValidUser.email || isValidUser.userName) {
 					await Post.findByIdAndUpdate(
 						{ _id: postId },
-						{ $push: { comments: { userId: (<any>resToken).userId, commentContent } } },
+						{
+							$push: {
+								comments: { userId: (<any>resToken).userId, commentContent },
+							},
+						}
 					);
 					return {
 						message: 'Comment Added Successfully',

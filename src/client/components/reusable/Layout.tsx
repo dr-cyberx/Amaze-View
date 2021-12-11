@@ -29,12 +29,12 @@ const Layout: React.FC<ILayout> = ({
       <Navbar />
       <StandardView>
         <div>
-          <h1>Amaze View</h1>
+          <h1 style={{ marginBottom: "37px" }}>Amaze View</h1>
           {children}
           <AddPost />
         </div>
       </StandardView>
-      {state.openPostModel && <PostModel />}
+      {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
       {state.openCommentModel.shouldbe && (
         <CommentModel refetchPosts={refetchPosts} />
       )}

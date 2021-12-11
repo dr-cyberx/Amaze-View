@@ -10,12 +10,19 @@ import Logo from "@components/reusable/Logo";
 import AmazeLoader from "@components/reusable/Loader";
 import styles from "@styles/Login.module.scss";
 
+const loginCreds = {
+  email_userName: "",
+    password: "",
+}
+
 const Login: React.FunctionComponent = (): JSX.Element => {
   const [LoginInputVariables, { data, loading, error }] =
     useMutation(LOGIN);
   const [userLoginDetails, setUserLoginDetails] = useState({
-    email_userName: "",
-    password: "",
+    ...loginCreds
+  });
+  const [FormErros, setFormErrors] = useState<any>({
+    ...loginCreds
   });
 
   useEffect(() => {
@@ -32,47 +39,69 @@ const Login: React.FunctionComponent = (): JSX.Element => {
     }
   }, [data]);
 
+  const validateLoginCreds = () : boolean => {
+    let isFormValid = true;
+    let errors = {
+      ...loginCreds
+    }
+    if(!userLoginDetails["email_userName"]){
+      isFormValid = false;
+      errors['email_userName'] = "Email or userName is required!"
+    }
+    if(!userLoginDetails["password"]){
+      isFormValid = false;
+      errors["password"] = "Password is required!"
+    }
+
+    setFormErrors(errors)
+    return isFormValid;
+  }
+
   const handleSubmit = (event: any): any => {
     event.preventDefault();
-    const { email_userName, password } = userLoginDetails;
+    if(validateLoginCreds()){
+      const { email_userName, password } = userLoginDetails;
 
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_userName)) {
-      const userWithUsername = {
-        userName: email_userName,
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_userName)) {
+        const userWithUsername = {
+          userName: email_userName,
+          password,
+        };
+  
+        try {
+          LoginInputVariables({
+            variables: {
+              userName: userWithUsername.userName,
+              password: userWithUsername.password,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+  
+        return userWithUsername;
+      }
+  
+      const userWithEmail = {
+        email: email_userName,
         password,
       };
-
+  
       try {
         LoginInputVariables({
           variables: {
-            userName: userWithUsername.userName,
-            password: userWithUsername.password,
+            email: userWithEmail.email,
+            password: userWithEmail.password,
           },
         });
       } catch (error) {
         console.log(error);
       }
+  
+      return userWithEmail;
 
-      return userWithUsername;
     }
-
-    const userWithEmail = {
-      email: email_userName,
-      password,
-    };
-
-    try {
-      LoginInputVariables({
-        variables: {
-          email: userWithEmail.email,
-          password: userWithEmail.password,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-
-    return userWithEmail;
+   
   };
 
   const handleChange = (event: any): void => {
@@ -82,10 +111,9 @@ const Login: React.FunctionComponent = (): JSX.Element => {
     }));
   };
 
-  if (loading) return <AmazeLoader data={data} />;
-
   return (
     <div className={styles.Login_container}>
+      {loading && <AmazeLoader data={data} />}
       <div className={styles.Logo_wrapper}>
         <Logo size="medium" />
       </div>
@@ -107,6 +135,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.email_userName}
             />
+            <span style={{ color: "red", marginTop:'-13px' }}>{FormErros["email_userName"]}</span>
             <TextField
               label="Password"
               type="password"
@@ -115,6 +144,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
               Icon="password"
               value={userLoginDetails.password}
             />
+            <span style={{ color: "red", marginTop:'-13px' }}>{FormErros["password"]}</span>
             <Button type="submit" label="Submit" size="medium" />
           </form>
 
@@ -140,4 +170,4 @@ const Login: React.FunctionComponent = (): JSX.Element => {
   );
 };
 
-export default Login;
+export default React.memo(Login);

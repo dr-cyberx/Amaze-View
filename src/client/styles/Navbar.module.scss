@@ -25,6 +25,9 @@
       cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
+    & .nav_links li{
+      padding: 10px;
+    }
     & .nav_links li:hover {
       color: var(--color-primary);
     }

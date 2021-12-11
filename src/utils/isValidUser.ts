@@ -1,7 +1,12 @@
 import { JwtPayload, verify } from 'jsonwebtoken';
 import User from '../db/schema/index';
 
-export const isValidUser = async (token: any): Promise<boolean> => {
+export const isValidUser = async (
+	token: any
+): Promise<{
+  isValid: boolean;
+  userId: any;
+}> => {
 	try {
 		if (token) {
 			const resToken: string | JwtPayload = await verify(
@@ -12,14 +17,14 @@ export const isValidUser = async (token: any): Promise<boolean> => {
 				_id: (<any>resToken).userId,
 			});
 			if (isValidUser.email || isValidUser.userName) {
-				return true;
+				return { isValid: false, userId: (<any>resToken).userId };
 			} else {
-				return false;
+				return { isValid: false, userId: null };
 			}
 		} else {
-			return false;
+			return { isValid: false, userId: null };
 		}
 	} catch (err) {
-		return false;
+		return { isValid: false, userId: null };
 	}
 };
