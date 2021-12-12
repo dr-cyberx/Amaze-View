@@ -69,6 +69,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
         };
   
         try {
+          console.log("tired")
           LoginInputVariables({
             variables: {
               userName: userWithUsername.userName,
