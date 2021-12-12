@@ -7,7 +7,7 @@ import Post from '../../db/schema/Post';
 export const Post_Query = {
 	getAllPost: async (
 		_parent: any,
-		args: any,
+		{ offset, limit }: any,
 		context: any
 	): Promise<
     | {
@@ -20,10 +20,15 @@ export const Post_Query = {
   > => {
 		try {
 			if (context.token) {
-				const isAuth: Promise<boolean> = isValidUser(context.token);
+				const isAuth: Promise<{ isValid: boolean; userId: any }> = isValidUser(
+					context.token
+				);
 				try {
 					if (await isAuth) {
-						const res = await Post.find({}).sort([['updatedAt', -1]]);
+						const res = await Post.find({})
+							.skip(offset)
+							.limit(limit)
+							.sort([['updatedAt', -1]]);
 						if (res) {
 							const data: {
                 id: any;
@@ -82,7 +87,9 @@ export const Post_Query = {
   > => {
 		try {
 			if (context.token) {
-				const isAuth: Promise<boolean> = isValidUser(context.token);
+				const isAuth: Promise<{ isValid: boolean; userId: any }> = isValidUser(
+					context.token
+				);
 				if (await isAuth) {
 					const comments = await Post.findById({ _id: args.postId });
 

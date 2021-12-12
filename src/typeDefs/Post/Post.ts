@@ -1,4 +1,4 @@
-export const getAllPost = 'getAllPost(query:String):[getPostResponse]!';
+export const getAllPost = 'getAllPost(offset: Int, limit: Int, query:String):[getPostResponse]!';
 export const getCommentsByPostId = 'getCommentsByPostId(postId: ID!): commentsRsp!';
 
 export const Post = `
