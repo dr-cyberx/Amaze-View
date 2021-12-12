@@ -13,7 +13,7 @@ const Home: React.FunctionComponent = (): JSX.Element => {
     {
       variables: {
         offset: 0,
-        limit: 10,
+        limit: 5,
       },
       fetchPolicy: "cache-first", // Used for first execution
     }

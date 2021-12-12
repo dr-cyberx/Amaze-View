@@ -8,11 +8,10 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink: ApolloLink = createHttpLink({
-  uri: "http://localhost:4000/",
+  uri: "http://localhost:4000/amazeview",
 });
 
 const authLink: ApolloLink = setContext((_, { headers }) => {
-
   const token = localStorage.getItem("auth-Token");
 
   return {
@@ -25,5 +24,22 @@ const authLink: ApolloLink = setContext((_, { headers }) => {
 
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          getAllPost: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
 });

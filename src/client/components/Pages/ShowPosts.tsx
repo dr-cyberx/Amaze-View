@@ -25,22 +25,31 @@ const ShowPosts: React.FC<IShowPosts> = ({
   React.useEffect(() => {
     setPostData(data);
   }, [data]);
-
+  console.log("length -----> ", data?.getAllPost?.length);
   return (
     <div>
       <AmazeLoader data={loading} />
-      <InfiniteScroll
-        next={fetchMore}
-        hasMore={true}
-        loader={<AmazeLoader data={true} />}
-        dataLength={PostData?.getAllPost.length}
-      >
-        {PostData?.getAllPost?.map((item: any) => (
-          <div key={item.id}>
-            <PostCard postData={item} location={item.location} />
-          </div>
-        ))}
-      </InfiniteScroll>
+      {data?.getAllPost && (
+        <InfiniteScroll
+          next={() =>
+            fetchMore({
+              variable: {
+                offset: data?.getAllPost?.length,
+                limit: 5,
+              },
+            })
+          }
+          hasMore={true}
+          loader={<AmazeLoader data={true} />}
+          dataLength={data?.getAllPost?.length}
+        >
+          {data?.getAllPost?.map((item: any) => (
+            <div key={item.id}>
+              <PostCard postData={item} location={item.location} />
+            </div>
+          ))}
+        </InfiniteScroll>
+      )}
     </div>
   );
 };
