@@ -1,26 +1,31 @@
-query GetAllPost {
-  getAllPost {
+query GetAllPost($limit: Int, $offset: Int) {
+  getAllPost(limit: $limit,offset: $offset) {
     id
     postContent
-    location
-    likes
     comments {
-      user{
-        id
-        firstName
-        lastName
-        email
-        userName
-      } 
+      id
       commentContent
-      id
+      user {
+        id
+        userName
+        firstName
+        email
+        age
+        phoneNumber
+      }
     }
+    likes
+    location
+    postContent
     publisher {
-      firstName
       id
-      firstName
-      email
       userName
+      firstName
+      lastName
+      email
+      age
+      phoneNumber
+      gender
     }
   }
 }

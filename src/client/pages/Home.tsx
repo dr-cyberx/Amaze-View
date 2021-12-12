@@ -5,15 +5,16 @@ import ShowPosts from "@components/Pages/ShowPosts";
 import Layout from "@components/reusable/Layout";
 import GET_ALL_POST from "@graphql-documents/GET_ALL_POST.graphql";
 import { useQuery } from "@apollo/client";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { get_all_post_data } from "state/actions";
 
 const Home: React.FunctionComponent = (): JSX.Element => {
   const { state } = useContext(AmazeContext);
-  const { data, loading, error, refetch, networkStatus } = useQuery(
+  const { data, loading, error, refetch, fetchMore, networkStatus } = useQuery(
     GET_ALL_POST,
     {
+      variables: {
+        offset: 0,
+        limit: 10,
+      },
       fetchPolicy: "cache-first", // Used for first execution
     }
   );
@@ -28,7 +29,12 @@ const Home: React.FunctionComponent = (): JSX.Element => {
   return (
     <>
       <Layout title="Home" refetchPosts={refetch}>
-        <ShowPosts data={data} loading={loading} refetch={refetch} />
+        <ShowPosts
+          data={data}
+          loading={loading}
+          refetch={refetch}
+          fetchMore={fetchMore}
+        />
       </Layout>
     </>
   );
