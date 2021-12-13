@@ -1,15 +1,16 @@
 import { gql } from 'apollo-server-express';
 import { DocumentNode } from 'graphql';
 import {
-  user,
-  EditUser,
-  RegisterUser,
-  updateUser,
-  Login,
-  getAllUser,
-  registerUserResponse,
+	user,
+	EditUser,
+	RegisterUser,
+	updateUser,
+	Login,
+	getAllUser,
+	registerUserResponse,
+	userAuth,
 } from './users/users';
-import { CreatePost, getAllPost, Post,getCommentsByPostId } from './Post/Post';
+import { CreatePost, getAllPost, Post, getCommentsByPostId } from './Post/Post';
 
 const typeDefs: DocumentNode = gql`
   type Query {
@@ -40,6 +41,7 @@ const typeDefs: DocumentNode = gql`
   type Mutation {
     ${RegisterUser}
     ${updateUser}
+    ${userAuth}
     ${Login}
     ${CreatePost}
   }

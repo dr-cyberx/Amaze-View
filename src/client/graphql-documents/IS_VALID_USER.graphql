@@ -1,0 +1,3 @@
+mutation IsUserAuth($token: String) {
+  isUserAuth(token: $token)
+}

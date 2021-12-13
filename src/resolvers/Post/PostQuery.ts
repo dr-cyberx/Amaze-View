@@ -10,14 +10,14 @@ export const Post_Query = {
 		{ offset, limit }: any,
 		context: any
 	): Promise<
-    | {
-        id: string;
-        postContent: string;
-        location: string;
-        publisher: () => Promise<any>;
-      }[]
-    | undefined
-  > => {
+		| {
+			id: string;
+			postContent: string;
+			location: string;
+			publisher: () => Promise<any>;
+		}[]
+		| undefined
+	> => {
 		try {
 			if (context.token) {
 				const isAuth: Promise<{ isValid: boolean; userId: any }> = isValidUser(
@@ -31,28 +31,28 @@ export const Post_Query = {
 							.sort([['updatedAt', -1]]);
 						if (res) {
 							const data: {
-                id: any;
-                postContent: any;
-                likes: any;
-                comments: () => Promise<any>;
-                location: any;
-                publisher: () => Promise<any>;
-              }[] = await Promise.all(
-              	res.map((item: any) => ({
-              		id: item._id,
-              		postContent: item.postContent,
-              		likes: item.likes,
-              		comments: async () =>
-              			await item.comments.map((d: any) => ({
-              				commentContent: d.commentContent,
-              				user: async () => await User.findById({ _id: d.userId }),
-              				id: d._id,
-              			})),
-              		location: item.location,
-              		publisher: async () =>
-              			await User.findById({ _id: item.publisher }),
-              	}))
-              );
+								id: any;
+								postContent: any;
+								likes: any;
+								comments: () => Promise<any>;
+								location: any;
+								publisher: () => Promise<any>;
+							}[] = await Promise.all(
+								res.map((item: any) => ({
+									id: item._id,
+									postContent: item.postContent,
+									likes: item.likes,
+									comments: async () =>
+										await item.comments.map((d: any) => ({
+											commentContent: d.commentContent,
+											user: async () => await User.findById({ _id: d.userId }),
+											id: d._id,
+										})),
+									location: item.location,
+									publisher: async () =>
+										await User.findById({ _id: item.publisher }),
+								}))
+							);
 							return data;
 						}
 					}
@@ -74,17 +74,17 @@ export const Post_Query = {
 		args: any,
 		context: any
 	): Promise<
-    | {
-        status: number;
-        message: string;
-        comments: any;
-      }
-    | {
-        status: number;
-        message: ApolloError;
-        comments: null;
-      }
-  > => {
+		| {
+			status: number;
+			message: string;
+			comments: any;
+		}
+		| {
+			status: number;
+			message: ApolloError;
+			comments: null;
+		}
+	> => {
 		try {
 			if (context.token) {
 				const isAuth: Promise<{ isValid: boolean; userId: any }> = isValidUser(
@@ -93,13 +93,13 @@ export const Post_Query = {
 				if (await isAuth) {
 					const comments = await Post.findById({ _id: args.postId });
 
-					if (comments.postContent) {
+					if (comments?.postContent) {
 						const commentResp = await comments?.comments.map(
 							(item: {
-                userId: string;
-                commentContent: string;
-                _id: string;
-              }) => ({
+								userId: string;
+								commentContent: string;
+								_id: string;
+							}) => ({
 								user: async () => {
 									const data = await User.findById({ _id: item.userId });
 									const resUser = {

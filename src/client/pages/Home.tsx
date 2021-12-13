@@ -13,11 +13,13 @@ const Home: React.FunctionComponent = (): JSX.Element => {
     {
       variables: {
         offset: 0,
-        limit: 5,
+        limit: 10,
       },
       fetchPolicy: "cache-first", // Used for first execution
     }
   );
+
+  console.log("home page data --->> ", data)
 
   useEffect(() => {
     const token = localStorage.getItem("auth-Token");
@@ -40,7 +42,7 @@ const Home: React.FunctionComponent = (): JSX.Element => {
   );
 };
 
-export default Home;
+export default React.memo(Home);
 
 // const setAllPostData_Dispatcher = useDispatch();
 // const setAll_post_actions = bindActionCreators(

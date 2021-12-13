@@ -45,6 +45,9 @@ export const RegisterUser = `
   ): registerUserResponse!
 `;
 
-export const updateUser = 'updateUser(id: ID!, data: EditUser): updateUserResponse!';
+export const updateUser =
+  'updateUser(id: ID!, data: EditUser): updateUserResponse!';
+export const userAuth = 'isUserAuth(token: String):Boolean';
 
-export const Login = 'Login(email: String, userName: String, password: String): loginOutput! ';
+export const Login =
+  'Login(email: String, userName: String, password: String): loginOutput! ';
