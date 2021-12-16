@@ -5,6 +5,7 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
       // "@graphql/*": ["graphql-documents/*"],
       "@graphql-documents/*": ["graphql-documents/*"]
     },

@@ -20,30 +20,37 @@ const ShowPosts: React.FC<IShowPosts> = ({
   fetchMore,
 }): JSX.Element => {
   const { state } = useContext(AmazeContext);
-  const [PostData, setPostData] = useState<any>();
+  const [PostData, setPostData] = useState([]);
 
   React.useEffect(() => {
-    setPostData(data);
+    if (data) {
+      setPostData(data?.getAllPost);
+    }
   }, [data]);
-  console.log("length -----> ", data?.getAllPost?.length);
+
+
+  React.useEffect(() => {
+    console.log("length ----> ", PostData?.length);
+  }, [PostData]);
+
   return (
     <div>
       <AmazeLoader data={loading} />
-      {data?.getAllPost && (
+      {PostData && (
         <InfiniteScroll
           next={() =>
             fetchMore({
               variable: {
-                offset: data?.getAllPost?.length,
-                limit: 5,
+                offset: PostData?.length,
+                limit: 10,
               },
             })
           }
           hasMore={true}
           loader={<AmazeLoader data={true} />}
-          dataLength={data?.getAllPost?.length}
+          dataLength={PostData?.length}
         >
-          {data?.getAllPost?.map((item: any) => (
+          {PostData?.map((item: any) => (
             <div key={item.id}>
               <PostCard postData={item} location={item.location} />
             </div>
@@ -54,4 +61,4 @@ const ShowPosts: React.FC<IShowPosts> = ({
   );
 };
 
-export default ShowPosts;
+export default React.memo(ShowPosts);

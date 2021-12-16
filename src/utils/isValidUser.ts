@@ -17,7 +17,7 @@ export const isValidUser = async (
 				_id: (<any>resToken).userId,
 			});
 			if (isValidUser.email || isValidUser.userName) {
-				return { isValid: false, userId: (<any>resToken).userId };
+				return { isValid: true, userId: (<any>resToken).userId };
 			} else {
 				return { isValid: false, userId: null };
 			}

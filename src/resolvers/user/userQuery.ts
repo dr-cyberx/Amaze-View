@@ -1,3 +1,4 @@
+import { isValidUser } from '../../utils/isValidUser';
 import User from '../../db/schema/index';
 
 export const user_Query = {

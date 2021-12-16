@@ -1,12 +1,13 @@
 import { ApolloError } from 'apollo-server-core';
 import jwt from 'jsonwebtoken';
+import { isValidUser } from '../../utils/isValidUser';
 
 import User from '../../db/schema/index';
 
 export const user_Mutation_Operations = {
 	RegisterUser: async (
 		_parents: any,
-		args: any,
+		args: any
 	): Promise<{
     data: any;
     token: string;
@@ -18,7 +19,7 @@ export const user_Mutation_Operations = {
 				return {
 					data: new ApolloError(
 						'User already exist',
-						'user registration failed',
+						'user registration failed'
 					),
 					token: '',
 					message: 'User already exist',
@@ -29,7 +30,7 @@ export const user_Mutation_Operations = {
 
 			const token = jwt.sign(
 				{ userId: user._id },
-				`${process.env.TOKEN_STRING}`,
+				`${process.env.TOKEN_STRING}`
 			);
 
 			return { data: user, token, message: 'Register Successfully' };
@@ -42,7 +43,7 @@ export const user_Mutation_Operations = {
 	updateUser: async (
 		_parents: any,
 		args: any,
-		context: any,
+		context: any
 	): Promise<
     | {
         data: any;
@@ -83,7 +84,7 @@ export const user_Mutation_Operations = {
 
 	Login: async (
 		_parents: any,
-		args: any,
+		args: any
 	): Promise<{
     message: string;
     shouldLogin: boolean;
@@ -105,14 +106,16 @@ export const user_Mutation_Operations = {
 
 		console.log(checkUser);
 
-		if (!checkUser) { return { message: 'user not found', shouldLogin: false, token: '' }; }
+		if (!checkUser) {
+			return { message: 'user not found', shouldLogin: false, token: '' };
+		}
 
 		try {
 			await checkUser.comparePassword(password);
 
 			const token = await jwt.sign(
 				{ userId: checkUser._id },
-				`${process.env.TOKEN_STRING}`,
+				`${process.env.TOKEN_STRING}`
 			);
 
 			return {
@@ -126,6 +129,27 @@ export const user_Mutation_Operations = {
 				shouldLogin: false,
 				token: '',
 			};
+		}
+	},
+	isUserAuth: async (
+		_parent: any,
+		args: any,
+		context: any
+	): Promise<boolean> => {
+		try {
+			if (args.token) {
+				const { isValid } = await isValidUser(args.token);
+				console.log('isvalid =>>> ', isValid);
+				if (isValid) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} catch (err) {
+			return false;
 		}
 	},
 };
