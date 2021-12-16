@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
+import cookie from "cookie";
 import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
 import Link from "next/link";
@@ -28,17 +29,24 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     ...user,
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("auth-Token");
-    if (token) {
-      router.push("/Home");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = cookie.parse(document.cookie)?.authToken;
+  //   if (token) {
+  //     router.push("/Home");
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (data?.RegisterUser?.token) {
-      localStorage.setItem("auth-Token", data?.RegisterUser?.token);
-      router.push("/Home");
+      document.cookie = cookie.serialize(
+        "authToken",
+        data?.RegisterUser?.token,
+        {
+          maxAge: 36000, // 10 hours
+          path: "/",
+        }
+      );
+      window.location.replace("/Home");
     }
   }, [data]);
 

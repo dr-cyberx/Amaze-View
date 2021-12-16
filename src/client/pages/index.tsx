@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
+import cookie from "cookie";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -10,7 +11,7 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   const verifyUser = async () => {
-    const token = await localStorage.getItem("auth-Token");
+    const token = await cookie.parse(document.cookie)?.authToken;
     return new Promise((resolve: any, reject: any) => {
       if (token) {
         resolve(true);
