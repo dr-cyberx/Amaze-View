@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import cookie from "cookie";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import IS_AUTH from "@graphql-documents/IS_AUTH.graphql";
@@ -13,11 +14,9 @@ const Auth: React.FC<IAuth> = ({ children }): JSX.Element => {
 
   useEffect(() => {
     if (data?.isUserAuth === false) {
-      localStorage.removeItem("auth-Token");
+      document.cookie = cookie.serialize("authToken", "");
       router.push("/auth/Login");
-      // return;
     }
-    console.log(data?.isUserAuth);
   }, [data]);
 
   return <>{children}</>;

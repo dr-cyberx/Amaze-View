@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import cookie from "cookie";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import router from "next/router";
 import Link from "next/link";
 import LOGIN from "@graphql-documents/LOGIN.graphql";
@@ -9,6 +10,8 @@ import Button from "@components/reusable/Button";
 import Logo from "@components/reusable/Logo";
 import AmazeLoader from "@components/reusable/Loader";
 import styles from "@styles/Login.module.scss";
+import IS_AUTH from "@graphql-documents/IS_AUTH.graphql";
+import Auth from "@components/reusable/Auth";
 
 const loginCreds = {
   email_userName: "",
@@ -16,6 +19,11 @@ const loginCreds = {
 };
 
 const Login: React.FunctionComponent = (): JSX.Element => {
+  const {
+    data: AutoLoginData,
+    loading: AutoLoginLoading,
+    error: AutoLoginError,
+  } = useQuery(IS_AUTH);
   const [LoginInputVariables, { data, loading, error }] = useMutation(LOGIN);
   const [userLoginDetails, setUserLoginDetails] = useState({
     ...loginCreds,
@@ -24,18 +32,18 @@ const Login: React.FunctionComponent = (): JSX.Element => {
     ...loginCreds,
   });
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("auth-Token");
-  //   if (token) {
-  //     router.push("/Home");
-  //   }
-  // }, []);
+  useEffect(()=>{
+    document.cookie = 'authToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  },[]);
 
   useEffect(() => {
     if (data?.Login?.shouldLogin) {
-      const res = localStorage.setItem("auth-Token", data?.Login?.token);
-      console.log("res ---> ", res);
-      window.location.replace('/Home');
+      cookie.parse(`authToken=${data?.Login?.token}`);
+      document.cookie = cookie.serialize("authToken", data?.Login?.token, {
+        maxAge: 36000, // 10 hours
+        path: "/",
+      });
+      window.location.replace("/Home");
     }
   }, [data]);
 

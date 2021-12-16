@@ -5,6 +5,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
+import cookie from "cookie";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 import { setContext } from "@apollo/client/link/context";
 
@@ -13,7 +14,7 @@ const httpLink: ApolloLink = createHttpLink({
 });
 
 const authLink: ApolloLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("auth-Token");
+  const token = cookie.parse(document.cookie)?.authToken;
 
   return {
     headers: {
