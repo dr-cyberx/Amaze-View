@@ -1,7 +1,7 @@
 import Layout from "@components/reusable/Layout";
 import React from "react";
 
-const notification: React.FunctionComponent<{}> = (): JSX.Element => {
+const notification: React.FunctionComponent = (): JSX.Element => {
   return (
     <>
       <Layout title="notification">
