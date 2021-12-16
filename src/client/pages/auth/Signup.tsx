@@ -52,7 +52,8 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
 
   const handleValidation = (): boolean => {
     let formIsValid = true;
-    let errors = {
+    
+    const errors = {
       ...user,
       passwordEqual: "password should be equal",
     };
