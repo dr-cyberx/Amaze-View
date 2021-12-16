@@ -21,12 +21,12 @@ const Home: React.FunctionComponent = (): JSX.Element => {
 
   console.log("home page data --->> ", data)
 
-  useEffect(() => {
-    const token = localStorage.getItem("auth-Token");
-    if (!token) {
-      router.push("/auth/Login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("auth-Token");
+  //   if (!token) {
+  //     router.push("/auth/Login");
+  //   }
+  // }, []);
 
   return (
     <>

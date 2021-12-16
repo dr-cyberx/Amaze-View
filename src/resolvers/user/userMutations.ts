@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-server-core';
 import jwt from 'jsonwebtoken';
-import { isValidUser } from '../../utils/isValidUser';
+
 
 import User from '../../db/schema/index';
 
@@ -131,25 +131,5 @@ export const user_Mutation_Operations = {
 			};
 		}
 	},
-	isUserAuth: async (
-		_parent: any,
-		args: any,
-		context: any
-	): Promise<boolean> => {
-		try {
-			if (args.token) {
-				const { isValid } = await isValidUser(args.token);
-				console.log('isvalid =>>> ', isValid);
-				if (isValid) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		} catch (err) {
-			return false;
-		}
-	},
+
 };

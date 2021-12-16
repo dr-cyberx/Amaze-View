@@ -12,64 +12,66 @@ import styles from "@styles/Login.module.scss";
 
 const loginCreds = {
   email_userName: "",
-    password: "",
-}
+  password: "",
+};
 
 const Login: React.FunctionComponent = (): JSX.Element => {
-  const [LoginInputVariables, { data, loading, error }] =
-    useMutation(LOGIN);
+  const [LoginInputVariables, { data, loading, error }] = useMutation(LOGIN);
   const [userLoginDetails, setUserLoginDetails] = useState({
-    ...loginCreds
+    ...loginCreds,
   });
   const [FormErros, setFormErrors] = useState<any>({
-    ...loginCreds
+    ...loginCreds,
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("auth-Token");
-    if (token) {
-      router.push("/Home");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("auth-Token");
+  //   if (token) {
+  //     router.push("/Home");
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (data?.Login?.shouldLogin) {
-      localStorage.setItem("auth-Token", data?.Login?.token);
-      router.push("/Home");
+      const res = localStorage.setItem("auth-Token", data?.Login?.token);
+      console.log("res ---> ", res);
+      window.location.replace('/Home');
     }
   }, [data]);
 
-  const validateLoginCreds = () : boolean => {
+  const validateLoginCreds = (): boolean => {
     let isFormValid = true;
     let errors = {
-      ...loginCreds
-    }
-    if(!userLoginDetails["email_userName"]){
+      ...loginCreds,
+    };
+    if (!userLoginDetails["email_userName"]) {
       isFormValid = false;
-      errors['email_userName'] = "Email or userName is required!"
+      errors["email_userName"] = "Email or userName is required!";
     }
-    if(!userLoginDetails["password"]){
+    if (!userLoginDetails["password"]) {
       isFormValid = false;
-      errors["password"] = "Password is required!"
+      errors["password"] = "Password is required!";
     }
 
-    setFormErrors(errors)
+    setFormErrors(errors);
     return isFormValid;
-  }
+  };
 
   const handleSubmit = (event: any): any => {
     event.preventDefault();
-    if(validateLoginCreds()){
+    if (validateLoginCreds()) {
       const { email_userName, password } = userLoginDetails;
 
-      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_userName)) {
+      if (
+        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_userName)
+      ) {
         const userWithUsername = {
           userName: email_userName,
           password,
         };
-  
+
         try {
-          console.log("tired")
+          console.log("tired");
           LoginInputVariables({
             variables: {
               userName: userWithUsername.userName,
@@ -79,15 +81,15 @@ const Login: React.FunctionComponent = (): JSX.Element => {
         } catch (error) {
           console.log(error);
         }
-  
+
         return userWithUsername;
       }
-  
+
       const userWithEmail = {
         email: email_userName,
         password,
       };
-  
+
       try {
         LoginInputVariables({
           variables: {
@@ -98,11 +100,9 @@ const Login: React.FunctionComponent = (): JSX.Element => {
       } catch (error) {
         console.log(error);
       }
-  
-      return userWithEmail;
 
+      return userWithEmail;
     }
-   
   };
 
   const handleChange = (event: any): void => {
@@ -136,7 +136,9 @@ const Login: React.FunctionComponent = (): JSX.Element => {
               onChange={handleChange}
               value={userLoginDetails.email_userName}
             />
-            <span style={{ color: "red", marginTop:'-13px' }}>{FormErros["email_userName"]}</span>
+            <span style={{ color: "red", marginTop: "-13px" }}>
+              {FormErros["email_userName"]}
+            </span>
             <TextField
               label="Password"
               type="password"
@@ -145,7 +147,9 @@ const Login: React.FunctionComponent = (): JSX.Element => {
               Icon="password"
               value={userLoginDetails.password}
             />
-            <span style={{ color: "red", marginTop:'-13px' }}>{FormErros["password"]}</span>
+            <span style={{ color: "red", marginTop: "-13px" }}>
+              {FormErros["password"]}
+            </span>
             <Button type="submit" label="Submit" size="medium" />
           </form>
 
