@@ -8,6 +8,7 @@ import StandardView from "@components/general/StandardWidth";
 import { useSelector } from "react-redux";
 import { RootState } from "state/reducers";
 import MetaData from "./MetaData";
+import Auth from "./Auth";
 
 interface ILayout {
   children: JSX.Element;
@@ -25,19 +26,21 @@ const Layout: React.FC<ILayout> = ({
 
   return (
     <>
-      <MetaData title={title} />
-      <Navbar />
-      <StandardView>
-        <div>
-          <h1 style={{ marginBottom: "37px" }}>Amaze View</h1>
-          {children}
-          <AddPost />
-        </div>
-      </StandardView>
-      {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
-      {state.openCommentModel.shouldbe && (
-        <CommentModel refetchPosts={refetchPosts} />
-      )}
+      <Auth>
+        <MetaData title={title} />
+        <Navbar />
+        <StandardView>
+          <div>
+            <h1 style={{ marginBottom: "37px" }}>Amaze View</h1>
+            {children}
+            <AddPost />
+          </div>
+        </StandardView>
+        {state.openPostModel && <PostModel refetchPost={refetchPosts} />}
+        {state.openCommentModel.shouldbe && (
+          <CommentModel refetchPosts={refetchPosts} />
+        )}
+      </Auth>
     </>
   );
 };

@@ -17,6 +17,7 @@ const typeDefs: DocumentNode = gql`
     hello: String!
     ${getAllUser}
     ${getAllPost}
+    ${userAuth}
     ${getCommentsByPostId}
   }
 
@@ -41,7 +42,6 @@ const typeDefs: DocumentNode = gql`
   type Mutation {
     ${RegisterUser}
     ${updateUser}
-    ${userAuth}
     ${Login}
     ${CreatePost}
   }
