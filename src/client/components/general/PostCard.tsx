@@ -23,23 +23,23 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
 }): JSX.Element => {
   const firstUpdate: React.MutableRefObject<boolean> = useRef(true);
   const [handleLikes, setHandleLikes] = useState<boolean>(false);
+  const [isFirstRender, setisforstrender] = useState<boolean>(true);
   const { openCommentModel } = useContext(AmazeContext);
-  const [postdata, setPostData] = useState(postData);
+  const [postdata] = useState(postData);
   const [likeLength, setLikeLength] = useState(postData.likes.length);
 
   const [addLikes] = useMutation(ADD_LIKES);
   const [removeLikes] = useMutation(REMOVE_LIKES);
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-    setHandleLikes(!handleLikes)
-  });
+  // useEffect(() => {
+  //   if (firstUpdate.current) {
+  //     firstUpdate.current = false;
+  //     return;
+  //   }
+  //   setHandleLikes(!handleLikes)
+  // });
 
-
-  const handleMutation = async (cb: any) => {
+  const handleMutation = async (cb: any) : Promise<void> => {
     await cb({
       variables: {
         postId: postdata?.id,
@@ -48,18 +48,18 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   };
 
   useEffect(() => {
+    if (!isFirstRender){
+      console.log("first render ---> ", isFirstRender)
     if (handleLikes) {
       handleMutation(addLikes);
     } else {
       handleMutation(removeLikes);
     }
-  }, [handleLikes]);
+  }
+  }, [isFirstRender,handleLikes]);
 
-  useEffect(() => {
-    setPostData(postData);
-  }, [postData]);
-
-  const likeHandler = () => {
+  const likeHandler = () : void => {
+    setisforstrender(false)
     setHandleLikes(!handleLikes);
     // setLikeLength((previousVal: number) => previousVal + 1);
   };
