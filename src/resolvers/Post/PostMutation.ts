@@ -70,7 +70,7 @@ export const PostMutation = {
 	DeletePost: async (
 		_parent: any,
 		args: any,
-		context: any,
+		context: any
 	): Promise<
     | {
         data: unknown;
@@ -80,9 +80,9 @@ export const PostMutation = {
     | undefined
   > => {
 		try {
-			if(context.token){
-				const {isValid} = await isValidUser(context.token);
-				if(isValid){
+			if (context.token) {
+				const { isValid } = await isValidUser(context.token);
+				if (isValid) {
 					const PostId = args?.PostId;
 					const post = await Post.findById({ _id: PostId });
 					if (post) {
@@ -102,22 +102,27 @@ export const PostMutation = {
 							error: false,
 							status: 200,
 						};
-					}else{
+					} else {
 						return {
-							data: new ApolloError('Access Denied', 'unautharized attempt to delete'),
+							data: new ApolloError(
+								'Access Denied',
+								'unautharized attempt to delete'
+							),
 							error: true,
 							status: 401,
 						};
 					}
-				}else{
+				} else {
 					return {
-						data: new ApolloError('Access Denied', 'unautharized attempt to delete'),
+						data: new ApolloError(
+							'Access Denied',
+							'unautharized attempt to delete'
+						),
 						error: true,
 						status: 401,
 					};
 				}
 			}
-			
 		} catch (error) {
 			return {
 				data: error,
@@ -141,13 +146,11 @@ export const PostMutation = {
         status: number;
       }
   > => {
-		const { postId } = args;
-
 		try {
+			const { postId } = args;
 			if (context.token) {
 				const { isValid, userId } = await isValidUser(context.token);
 				if (await isValid) {
-
 					await Post.findByIdAndUpdate(
 						{ _id: postId },
 						{ $push: { likes: userId } }
@@ -170,6 +173,39 @@ export const PostMutation = {
 		} catch (error) {
 			return {
 				message: new ApolloError('adding likes failed', `${error}`),
+				status: 404,
+			};
+		}
+	},
+
+	RemoveLikes: async (_parents: any, args: any, context: any) => {
+		try {
+			const { postId } = args;
+			if (context.token) {
+				const { isValid, userId } = await isValidUser(context.token);
+				if (await isValid) {
+					await Post.findByIdAndUpdate(
+						{ _id: postId },
+						{ $pull: { likes: userId } }
+					);
+					return {
+						message: 'removing Likes successfully',
+						status: 200,
+					};
+				}
+				return {
+					message: new ApolloError('inValid User', 'removing likes failed'),
+					status: 404,
+				};
+			}
+			return {
+				message: new ApolloError('Access Denied', 'removing likes failed'),
+				status: 404,
+			};
+		} catch (err) {
+			console.log(err);
+			return {
+				message: new ApolloError('Removed like failed', `${err}`),
 				status: 404,
 			};
 		}

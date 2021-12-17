@@ -1,5 +1,7 @@
-export const getAllPost = 'getAllPost(offset: Int, limit: Int, query:String):[getPostResponse]!';
-export const getCommentsByPostId = 'getCommentsByPostId(postId: ID!): commentsRsp!';
+export const getAllPost =
+  "getAllPost(offset: Int, limit: Int, query:String):[getPostResponse]!";
+export const getCommentsByPostId =
+  "getCommentsByPostId(postId: ID!): commentsRsp!";
 
 export const Post = `
    type commentsRsp{
@@ -59,6 +61,7 @@ export const Post = `
 export const CreatePost = `
    CreatePost(postContent: String!, location: String!): Post
    AddLike(postId: String!): likeResponse
+   RemoveLikes(postId: String!): likeResponse
    AddComments(postId: String!, commentContent:String!): likeResponse
    DeletePost(PostId:String!): Post
 `;

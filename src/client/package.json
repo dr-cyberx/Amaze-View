@@ -1,6 +1,7 @@
 {
   "name": "client",
   "private": true,
+  "license" : "MIT license",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
