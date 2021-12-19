@@ -1,0 +1,6 @@
+mutation RemoveLikes($postId: String!) {
+  RemoveLikes(postId: $postId) {
+    message
+    status
+  }
+}

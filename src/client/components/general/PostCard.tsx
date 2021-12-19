@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useMutation } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,10 +8,8 @@ import {
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import ADD_LIKES from "@graphql-documents/ADD_LIKES.graphql";
+import REMOVE_LIKES from "@graphql-documents/REMOVE_LIKES.graphql";
 import style from "@styles/PostCard.module.scss";
-import { commentModel } from "state/actions";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
 import { AmazeContext } from "utils";
 
 interface IPostCard {
@@ -23,23 +21,47 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
   postData,
   location,
 }): JSX.Element => {
+  const firstUpdate: React.MutableRefObject<boolean> = useRef(true);
+  const [handleLikes, setHandleLikes] = useState<boolean>(false);
   const { openCommentModel } = useContext(AmazeContext);
   const [postdata, setPostData] = useState(postData);
   const [likeLength, setLikeLength] = useState(postData.likes.length);
 
   const [addLikes] = useMutation(ADD_LIKES);
+  const [removeLikes] = useMutation(REMOVE_LIKES);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    setHandleLikes(!handleLikes)
+  });
+
+
+  const handleMutation = async (cb: any) => {
+    await cb({
+      variables: {
+        postId: postdata?.id,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (handleLikes) {
+      handleMutation(addLikes);
+    } else {
+      handleMutation(removeLikes);
+    }
+  }, [handleLikes]);
 
   useEffect(() => {
     setPostData(postData);
   }, [postData]);
 
-  const handleLikes = async () => {
-    setLikeLength((previousVal: number) => previousVal + 1);
-    await addLikes({
-      variables: {
-        postId: postdata?.id,
-      },
-    });
+  const likeHandler = () => {
+    setHandleLikes(!handleLikes);
+    // setLikeLength((previousVal: number) => previousVal + 1);
   };
 
   const handleComment = async () => await openCommentModel(postData.id);
@@ -67,7 +89,7 @@ const PostCard: React.FunctionComponent<IPostCard> = ({
         <p style={{ marginTop: "0px" }}>{postdata?.postContent}</p>
       </div>
       <div className={style.Post_card_foot}>
-        <p onClick={handleLikes}>
+        <p onClick={likeHandler}>
           {likeLength} <FontAwesomeIcon size="1x" icon={faThumbsUp} /> Likes
         </p>
         <p onClick={handleComment}>
